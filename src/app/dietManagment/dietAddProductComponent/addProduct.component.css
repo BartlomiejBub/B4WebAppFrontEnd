@@ -1,0 +1,359 @@
+/* =========================================
+   PASEK NAWIGACJI DATY (Styl Fitatu)
+   ========================================= */
+.date-navigator {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 15px 10px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  border: 1px solid #f1f5f9;
+}
+
+.month-header {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #334155;
+  text-transform: capitalize;
+  margin-bottom: 12px;
+}
+
+.days-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.days-list {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  padding: 0 10px;
+}
+
+.day-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 56px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+.day-item:hover {
+  background: #f8fafc;
+}
+
+/* Styl dla aktualnie wybranego dnia */
+.day-item.active {
+  background: #4f46e5;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+}
+
+.day-name {
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.day-number {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  transition: color 0.2s ease;
+}
+
+.day-item.active .day-name,
+.day-item.active .day-number {
+  color: #ffffff;
+}
+
+.nav-arrow {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 8px;
+  font-size: 16px;
+  transition: color 0.2s ease;
+}
+
+.nav-arrow:hover {
+  color: #4f46e5;
+}
+
+
+
+/* =========================================
+   WYSZUKIWARKA I PRZYCISK DODAWANIA
+   ========================================= */
+.search-header-wrapper {
+  display: flex;
+  gap: 15px;
+  align-items: center; /* Wyśrodkowanie w pionie, żeby przycisk i input były równo */
+  margin-bottom: 25px; /* Margines oddzielający od listy wyników */
+}
+
+.search-header {
+  flex-grow: 1; /* Wyszukiwarka zajmuje całe wolne miejsce */
+}
+
+.search-input {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  border-color: #4f46e5;
+}
+
+.btn-add-new {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.btn-add-new:hover { 
+  background: #059669; 
+}
+
+/* =========================================
+   LISTA WYNIKÓW (STARE STYLE KART PRODUKTÓW)
+   ========================================= */
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.item-info h4 { 
+  margin: 0 0 8px 0; 
+  font-size: 16px; 
+  color: #222; 
+}
+
+.item-macros { 
+  display: flex; 
+  gap: 12px; 
+  font-size: 13px; 
+  color: #666; 
+  align-items: center; 
+}
+
+.item-macros .kcal { 
+  font-weight: bold; 
+  color: #ff6b6b; 
+}
+
+.badge { 
+  background: #f1f5f9; 
+  padding: 2px 6px; 
+  border-radius: 4px; 
+  font-size: 11px; 
+  color: #64748b; 
+}
+
+.item-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.weight-input {
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  outline: none;
+}
+
+.btn-add {
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.btn-add:hover { 
+  background: #4338ca; 
+}
+
+/* =========================================
+   MODAL DODAWANIA WŁASNEGO PRODUKTU
+   ========================================= */
+.macro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 15px; /* Odstęp tylko w poziomie, pionowy załatwia .form-group */
+  background: #f8fafc;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px dashed #cbd5e1;
+  margin-bottom: 15px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.half-width {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 500;
+  font-size: 13px;
+  color: #475569;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #4f46e5;
+}
+
+/* =========================================
+   STYLE MODALA (OVERLAY, PUDŁO, PRZYCISKI)
+   ========================================= */
+
+/* Tło przyciemniające całą stronę */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Półprzezroczysty czarny */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Gwarantuje, że modal będzie NAD wszystkim innym */
+}
+
+/* Główne okno modala */
+.modal-box {
+  background: #ffffff;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  /* Zabezpieczenie na małych ekranach: */
+  max-height: 90vh;
+  overflow-y: auto; 
+}
+
+/* Nagłówek modala */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 15px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 1.2rem;
+}
+
+/* Przycisk X (Zamknij) */
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: #64748b;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #ef4444; /* Czerwony przy najechaniu */
+}
+
+/* Stopka z przyciskami */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Przycisk Anuluj */
+.btn-cancel {
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+  background: #e2e8f0;
+}
+
+/* Przycisk Zapisz produkt */
+.btn-success {
+  background: #10b981;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-success:hover {
+  background: #059669;
+}

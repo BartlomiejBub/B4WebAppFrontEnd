@@ -1,0 +1,97 @@
+<div class="search-container">
+  <div class="search-header-wrapper">
+    <div class="search-header">
+      <input #searchInput type="text" class="search-input" placeholder="Wpisz nazwę produktu (np. Serek wiejski)... " (input)="onSearchProducts(searchInput.value)">
+    </div>
+    <button class="btn-add-new" (click)="addProductModalOpen()">
+      <i class="fas fa-plus"></i> Dodaj własny
+    </button>
+  </div>
+
+  @for (item of this.productService.productsSearched(); track item.ID_Product) {
+    <div class="search-results">
+      <div class="product-item" >
+        <div class="item-info">
+          <h4>{{ item.name }}</h4>
+          <div class="item-macros">
+            <span class="badge">W 100g:</span>
+            <span class="kcal">🔥 {{ item.caloric }} kcal</span>
+            <span>B: {{ item.protein }}g</span>
+            <span>T: {{ item.fat }}g</span>
+            <span>W: {{ item.carbs }}g</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <input type="number" class="weight-input" placeholder="Waga (g)" #weightInput>
+          <button class="btn-add" (click)="onAddProductByUser(item.ID_Product, weightInput.value)">Dodaj</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+@if (isAddProductModalOpen) {
+  <div class="modal-overlay" (click)="addProductModalClose()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Dodaj nowy produkt</h3>
+        <button class="close-btn" (click)="isAddProductModalOpen = false"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <div class="modal-body modal-body-edit">
+        
+        <div class="form-group">
+          <label>Nazwa produktu</label>
+          <input type="text" #nameInput class="form-control" placeholder="np. Płatki owsiane górskie">
+        </div>
+
+        <div class="macro-grid">
+          <div class="form-group">
+            <label>Kcal (w 100g)</label>
+            <input type="number" #caloricInput class="form-control" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Białko (g)</label>
+            <input type="number" #proteinInput class="form-control" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Węglowodany (g)</label>
+            <input type="number" #carbsInput class="form-control" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Tłuszcze (g)</label>
+            <input type="number" #fatInput class="form-control" placeholder="0">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group half-width">
+            <label>Domyślna porcja (g)</label>
+            <input type="number" #gramsInOneInput class="form-control" placeholder="np. 100">
+          </div>
+          <div class="form-group half-width">
+            <label>Kod produktu</label>
+            <input type="text" #codeInput class="form-control" placeholder="Kreskowy lub własny">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="addProductModalClose()">Anuluj</button>
+        <button class="btn-success" 
+                (click)="onAddProductRaw(
+                  nameInput.value, 
+                  caloricInput.value, 
+                  proteinInput.value, 
+                  carbsInput.value, 
+                  fatInput.value, 
+                  gramsInOneInput.value, 
+                  codeInput.value
+                )">
+          Zapisz produkt
+        </button>
+      </div>
+    </div>
+  </div>
+}

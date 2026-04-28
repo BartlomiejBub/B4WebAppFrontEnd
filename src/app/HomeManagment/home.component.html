@@ -1,0 +1,80 @@
+<div class="home-container">
+  
+  <section class="hero-section">
+    <div class="hero-text">
+      <span class="badge">Nowość</span>
+      <h1>Przejmij kontrolę nad swoją dietą.</h1>
+      <p>Nowoczesny panel zarządzania dietą inspirowany najlepszymi aplikacjami fitness. Szybko, lekko i przejrzyście.</p>
+      <div class="hero-buttons">
+        <a routerLink="/diet" class="btn-primary">Przejdź do Panelu</a>
+        @if (!appService.isLoggedIn()) {
+          <a (click)="openLoginModal()" class="btn-secondary" style="cursor: pointer;">Zaloguj się</a>
+        }
+      </div>
+    </div>
+    <div class="hero-image">  
+      <img src="B4FitLogo.png" alt="Logo">
+    </div>
+  </section>
+
+  <section class="features-section">
+    <div class="feature-card">
+      <div class="icon-wrapper"><i class="fas fa-users"></i></div>
+      <h3>Zarządzanie bazą</h3>
+      <p>Przeglądaj, dodawaj i usuwaj użytkowników w czasie rzeczywistym dzięki integracji ze Spring Bootem.</p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="icon-wrapper"><i class="fas fa-bolt"></i></div>
+      <h3>Błyskawiczne działanie</h3>
+      <p>Architektura Single Page Application sprawia, że przełączanie między zakładkami odbywa się bez przeładowań.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon-wrapper"><i class="fas fa-shield-alt"></i></div>
+      <h3>Bezpieczeństwo</h3>
+      <p>Zabezpieczone trasy, ochrona tokenami i pełne szyfrowanie haseł w bazie PostgreSQL.</p>
+    </div>
+  </section>
+
+
+  @if (isLoginModalOpen) {
+    <div class="modal-overlay" (click)="closeLoginModal()">
+      <div class="modal-box" (click)="$event.stopPropagation()">
+        
+        <div class="modal-header">
+          <h2>Witaj ponownie!</h2>
+          <p class="subtitle">Zaloguj się do swojego konta B4Fit</p>
+          <button class="close-btn" (click)="closeLoginModal()"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Adres email</label>
+            <input type="email" #loginEmailInput class="form-control" placeholder="np. jan@kowalski.pl">
+          </div>
+          
+          <div class="form-group">
+            <label>Hasło</label>
+            <input type="password" #loginPassInput class="form-control" placeholder="••••••••">
+          </div>
+
+          <a href="#" class="forgot-password">Zapomniałeś hasła?</a>
+        </div>
+  
+        <div class="modal-footer">
+          <button class="btn-primary full-width" 
+                  (click)="onLoginSubmit(loginEmailInput.value, loginPassInput.value)">
+            Zaloguj się
+          </button>
+          
+          <div class="register-prompt">
+            Nie masz jeszcze konta? <a routerLink="/register" (click)="closeLoginModal()">Zarejestruj się</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  }
+
+</div>

@@ -1,0 +1,226 @@
+<div id="main-container" class="app-container">
+  <div class="table-card">
+    <div class="card-header">
+      <h2>Lista Użytkowników</h2>
+      
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" #searchInput (input)="onSearchUsers(searchInput.value)" placeholder="Szukaj użytkownika...">
+      </div>
+
+      <button (click)="onOpenAddModal()" class="add-btn"><i class="fas fa-plus"></i> Dodaj</button>
+    </div>
+    
+    <div class="table-responsive">
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>Użytkownik</th>
+            <th>Data utworzenia</th>
+            <th class="text-center">Status</th>
+            <th>Email</th>
+            <th class="text-center">Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          @for (user of users; track user.login) {
+            
+          <tr>
+            <td>
+              <div class="user-info">
+                <img [src]="'https://api.dicebear.com/7.x/initials/svg?seed=' + user.login" alt="Avatar" class="avatar">
+                <div class="user-details">
+                  <span class="user-name">{{ user.name }} {{ user.surname }} ({{ user.login }})</span>
+                  <span class="user-role">{{ user.userRole.toString() }}</span>
+                </div>
+              </div>
+            </td>
+            <td class="text-muted">2026-03-08</td> <td class="text-center">
+              <span class="status-badge" [ngClass]="user.enabled ? 'active' : 'pending'">
+                {{ user.enabled ? 'Aktywny' : 'Oczekujący' }}
+              </span>
+            </td>
+            <td>
+              <a href="mailto:{{ user.email }}" class="email-link">{{ user.email }}</a>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button (click)="onOpenUserModal(user, 'view')" class="action-btn view" title="Podgląd">
+                  <i class="fas fa-search"></i>
+                </button>
+                <button (click)="onOpenUserModal(user, 'edit')" class="action-btn edit" title="Edytuj">
+                  <i class="fas fa-pen"></i>
+                </button>
+                <button (click)="onOpenUserModal(user, 'delete')" class="action-btn delete" title="Usuń">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="5" class="empty-state">
+              <i class="fas fa-inbox empty-icon"></i>
+              <p>Ładowanie użytkowników lub brak danych w bazie...</p>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+@if (activeModal === 'delete') {
+            <div class="modal-overlay" (click)="closeModal()">
+                
+                <div class="modal-box" (click)="$event.stopPropagation()">
+                  <div class="modal-header">
+                    <h3>Usuwanie użytkownika</h3>
+                    <button class="close-btn" (click)="closeModal()"><i class="fas fa-times"></i></button>
+                  </div>
+                  
+                  <div class="modal-body">
+                    <p>Czy na pewno chcesz trwale usunąć użytkownika <strong>{{ selectedUser?.login }}</strong>?</p>
+                    <p class="text-danger">Tej operacji nie można cofnąć.</p>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button class="btn-cancel" (click)="closeModal()">Anuluj</button>
+                    @if(selectedUser != null){
+                      <button class="btn-danger" (click)="deleteUser(selectedUser.ID_User)">Tak, usuń</button>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+
+@if (activeModal === 'edit') {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Edytuj użytkownika</h3>
+        <button class="close-btn" (click)="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <div class="modal-body modal-body-edit">
+        <div class="form-group">
+          <label>Login ({{selectedUser?.ID_User}})</label>
+          <input type="text" [value]="selectedUser?.login" disabled #loginInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Imię</label>
+          <input type="text" [value]="selectedUser?.name" #imieInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Nazwisko</label>
+          <input type="text" [value]="selectedUser?.surname" #nazwiskoInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" [value]="selectedUser?.email" #emailInput class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>Rola użytkownika</label>
+          <select #rolaInput class="form-control">
+            <option value= "USER" [selected]="selectedUser?.userRole?.toString() == 'USER'">User</option>
+            <option value= "ADMIN" [selected]="selectedUser?.userRole?.toString() == 'ADMIN'">Admin</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Aktywność konta</label>
+          <select #aktywnoscInput class="form-control">
+            <option value="true" [selected]="selectedUser?.enabled === true">Aktywny</option>
+            <option value="false" [selected]="selectedUser?.enabled === false">Nieaktywny</option>
+          </select>
+        </div>
+        </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeModal()">Anuluj</button>
+        <button class="btn-success" 
+                (click)="onEditUserRaw(imieInput.value, nazwiskoInput.value, emailInput.value, aktywnoscInput.value === 'true', rolaInput.value)">
+          Zapisz
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (activeModal === 'add') {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Dodaj nowego użytkownika</h3>
+        <button class="close-btn" (click)="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Imię</label>
+          <input type="text" #imieInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Nazwisko</label>
+          <input type="text" #nazwiskoInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Login</label>
+          <input type="text" #loginInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" #emailInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Hasło</label>
+          <input type="password" #hasloInput class="form-control">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeModal()">Anuluj</button>
+        <button class="btn-success" 
+                (click)="onAddUserRaw(imieInput.value, nazwiskoInput.value, loginInput.value, emailInput.value, hasloInput.value)">
+          Zapisz
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (activeModal === 'view') {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Zobacz użytkownika</h3>
+        <button class="close-btn" (click)="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Imię</label>
+          <input type="text" [value]="selectedUser?.name" disabled #imieInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Nazwisko</label>
+          <input type="text" [value]="selectedUser?.surname" disabled #nazwiskoInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Login</label>
+          <input type="text" [value]="selectedUser?.login" disabled #loginInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" [value]="selectedUser?.email" disabled #emailInput class="form-control">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeModal()">Zamknij</button>
+      </div>
+    </div>
+  </div>
+}

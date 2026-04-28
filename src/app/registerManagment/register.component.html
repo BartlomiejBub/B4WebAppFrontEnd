@@ -1,0 +1,52 @@
+<div class="register-wrapper">
+  <div class="register-card">
+    <div class="register-header">
+      <h2>Dołącz do B4Fit</h2>
+      <p class="subtitle">Zbuduj formę życia razem z nami</p>
+    </div>
+
+    <div class="register-body">
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label>Imię</label>
+          <input type="text" #regNameInput class="form-control" placeholder="np. Jan">
+        </div>
+        <div class="form-group half-width">
+          <label>Nazwisko</label>
+          <input type="text" #regSurnameInput class="form-control" placeholder="np. Kowalski">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Login</label>
+        <input type="text" #regLoginInput class="form-control" placeholder="Twój unikalny login">
+      </div>
+
+      <div class="form-group">
+        <label>Adres Email</label>
+        <input type="email" #regEmailInput class="form-control" placeholder="jan.kowalski@email.com">
+      </div>
+
+      <div class="form-group">
+        <label>Hasło</label>
+        <input type="password" #regPassInput class="form-control" placeholder="Min. 8 znaków">
+      </div>
+      
+      <div class="form-group">
+        <label>Potwierdź hasło</label>
+        <input type="password" #regPassConfirmInput class="form-control" placeholder="Powtórz hasło">
+      </div>
+    </div>
+
+    <div class="register-footer">
+      <button class="btn-primary full-width register-btn" 
+              (click)="onAddUserRaw(regNameInput.value, regSurnameInput.value, regLoginInput.value, regEmailInput.value, regPassInput.value)">
+        Załóż konto
+      </button>
+      
+      <div class="login-prompt">
+        Masz już konto? <a routerLink="/home" class="login-link">Zaloguj się</a>
+      </div>
+    </div>
+  </div>
+</div>

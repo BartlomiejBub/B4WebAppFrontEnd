@@ -1,0 +1,20 @@
+<div class="list-container">
+  <h3>Zjedzone posiłki i produkty</h3>
+  
+  @for (item of productService.consumedProducts(); track item.idOfEntry) {
+  <div class="product-item">
+    <div class="item-info">
+      <h4>{{ item.name }} <span>({{ item.weight }}g)</span></h4>
+      <div class="item-macros">
+        <span class="kcal"><i class="icon">🔥</i> {{ item.caloriesCalculated }} kcal</span>
+        <span>B: {{ item.proteinCalculated }}g</span>
+        <span>T: {{ item.fatCalculated }}g</span>
+        <span>W: {{ item.carbsCalculated }}g</span>
+      </div>
+    </div>
+    <div class="item-actions">
+      <button class="btn-delete" (click)="deleteEntry(item.idOfEntry)" title="Usuń z dzisiejszej listy">Usuń</button>
+    </div>
+  </div>
+  }
+</div>

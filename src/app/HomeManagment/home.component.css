@@ -1,0 +1,329 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* --- Sekcja Hero --- */
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 60px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  gap: 40px;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.badge {
+  display: inline-block;
+  background-color: #d1fae5;
+  color: #059669;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.hero-text h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.2;
+  margin: 0 0 20px 0;
+}
+
+.hero-text p {
+  font-size: 1.15rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 35px;
+  max-width: 500px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-primary {
+  background-color: #10b981;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #059669;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: #f1f5f9;
+  color: #475569;
+  padding: 14px 28px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: #e2e8f0;
+}
+
+.hero-image {
+  flex: 1;
+  text-align: right;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  max-height: 350px;
+}
+
+/* --- Sekcja Kart --- */
+.features-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.feature-card {
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+}
+
+.icon-wrapper {
+  width: 60px;
+  height: 60px;
+  background-color: #ecfdf5;
+  color: #10b981;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto 20px auto;
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  color: #1e293b;
+  margin: 0 0 15px 0;
+  font-weight: 700;
+}
+
+.feature-card p {
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Animacja wejścia */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* RWD (Dla mniejszych ekranów) */
+@media (max-width: 900px) {
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .hero-text p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-buttons {
+    justify-content: center;
+  }
+  .features-section {
+    grid-template-columns: 1fr; /* Na komórkach karty układają się jedna pod drugą */
+  }
+}
+
+
+/* --- OKIENKO LOGOWANIA (MODAL) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.4); /* Lekko przyciemnione tło */
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 400px; /* Okienko logowania jest węższe niż tabele */
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.3s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 40px 30px 20px 30px;
+  text-align: center;
+}
+
+.modal-header h2 {
+  margin: 0 0 5px 0;
+  color: #0f172a;
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.subtitle {
+  color: #64748b;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #f1f5f9;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.modal-body {
+  padding: 0 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #334155;
+  font-size: 0.9rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: all 0.2s;
+  background-color: #f8fafc;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #10b981;
+  background-color: #ffffff;
+}
+
+.forgot-password {
+  display: block;
+  text-align: right;
+  color: #10b981;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.modal-footer {
+  padding: 10px 30px 40px 30px;
+}
+
+.btn-primary.full-width {
+  width: 100%;
+  background-color: #10b981;
+  color: white;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-primary.full-width:hover {
+  background-color: #059669;
+}
+
+.btn-primary.full-width:active {
+  transform: scale(0.98);
+}
+
+.register-prompt {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.register-prompt a {
+  color: #10b981;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.register-prompt a:hover {
+  text-decoration: underline;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}

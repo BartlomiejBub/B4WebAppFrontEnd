@@ -1,0 +1,78 @@
+
+<div class="page-wrapper">
+  
+  <nav class="top-navbar">
+    <div class="nav-content">
+      <h1 class="logo">B4Fit</h1>
+      
+      <div class="nav-links">
+  <a routerLink="/home" class="nav-link">Home</a>
+
+  @if (appService.isLoggedIn()) {
+    <a routerLink="/diet" class="nav-link">Panel diety</a>
+
+    @if(appService.getUserRole() == adminRole) {
+    <a routerLink="/admin" class="nav-link">Panel Administracyjny</a>
+    }
+
+    <span class="user-greeting">Witaj, {{ appService.loggedUser() }}!</span>
+    <a (click)="appService.logout()" routerLink="/home" class="nav-link" style="cursor: pointer;">Wyloguj</a>
+    
+  }
+
+  @if (!appService.isLoggedIn()) {
+    <a (click)="openLoginModal()" class="nav-link" style="cursor: pointer;">Logowanie</a>
+    <a routerLink="/register" class="nav-link">Rejestracja</a>
+   
+  }
+</div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="bottom-footer">
+    <p>&copy; 2026 Wszelkie prawa zastrzeżone.</p>
+  </footer>
+
+  @if (isLoginModalOpen) {
+    <div class="modal-overlay" (click)="closeLoginModal()">
+      <div class="modal-box" (click)="$event.stopPropagation()">
+        
+        <div class="modal-header">
+          <h2>Witaj ponownie!</h2>
+          <p class="subtitle">Zaloguj się do swojego konta B4Fit</p>
+          <button class="close-btn" (click)="closeLoginModal()"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Login</label>
+            <input type="text" #loginEmailInput class="form-control" placeholder="np. janKowalski">
+          </div>
+          
+          <div class="form-group">
+            <label>Hasło</label>
+            <input type="password" #loginPassInput class="form-control" placeholder="••••••••">
+          </div>
+
+          <a href="#" class="forgot-password">Zapomniałeś hasła?</a>
+        </div>
+  
+        <div class="modal-footer">
+          <button class="btn-primary full-width" 
+                  (click)="onLoginSubmit(loginEmailInput.value, loginPassInput.value)">
+            Zaloguj się
+          </button>
+          
+          <div class="register-prompt">
+            Nie masz jeszcze konta? <a routerLink="/register" (click)="closeLoginModal()">Zarejestruj się</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  }
+</div>

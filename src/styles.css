@@ -1,0 +1,13 @@
+body{
+    padding: 0;
+    margin: 0;
+     -ms-scrollbar-style: none;
+}
+
+*{
+     -ms-scrollbar-style: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

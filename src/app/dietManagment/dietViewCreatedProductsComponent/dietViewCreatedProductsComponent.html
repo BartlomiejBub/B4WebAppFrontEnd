@@ -1,0 +1,20 @@
+<div class="list-container">
+  <h3>Stworzone produkty</h3>
+  
+  @for (item of productService.createdByUserProducts(); track item.ID_Product) {
+  <div class="product-item">
+    <div class="item-info">
+      <h4>{{ item.name }} <span>({{ item.gramsInOne }}g)</span></h4>
+      <div class="item-macros">
+        <span class="kcal"><i class="icon">🔥</i> {{ item.caloric }} kcal</span>
+        <span>B: {{ item.protein }}g</span>
+        <span>T: {{ item.fat }}g</span>
+        <span>W: {{ item.carbs }}g</span>
+      </div>
+    </div>
+    <div class="item-actions">
+      <button class="btn-delete" (click)="deleteEntry(item.ID_Product!)" title="Usuń z stworzonych produktów">Usuń</button>
+    </div>
+  </div>
+  }
+</div>

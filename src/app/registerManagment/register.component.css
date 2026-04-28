@@ -1,0 +1,132 @@
+/* Centrujemy kartę na środku dostępnej przestrzeni w <main> */
+.register-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 2rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.register-card {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 2.5rem;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.register-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.register-header .subtitle {
+  color: #6c757d;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* Układ dla Imienia i Nazwiska w jednym rzędzie */
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.half-width {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #495057;
+  margin-bottom: 0.4rem;
+}
+
+.form-control {
+  padding: 0.8rem 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+.register-footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.btn-primary.register-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-primary.register-btn:hover {
+  background-color: #0056b3;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.login-prompt {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.login-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.login-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Prosta animacja wejścia */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsywność dla telefonów */
+@media (max-width: 500px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  .register-card {
+    padding: 1.5rem;
+  }
+}
