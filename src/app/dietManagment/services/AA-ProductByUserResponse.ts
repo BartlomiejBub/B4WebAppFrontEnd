@@ -7,4 +7,5 @@ export interface ProductByUserResponse{
     fatCalculated: number;
     carbsCalculated: number;
     weight: number;
+    time: number;
 }

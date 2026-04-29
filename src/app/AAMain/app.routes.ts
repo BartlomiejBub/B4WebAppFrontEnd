@@ -7,6 +7,7 @@ import { AddProductComponent } from '../dietManagment/dietAddProductComponent/ad
 import { ViewProductsComponent } from '../dietManagment/dietViewProductsComponent/viewProducts.component';
 import { DietComponent } from '../dietManagment/diet.component';
 import { ViewCreatedProductsComponent } from '../dietManagment/dietViewCreatedProductsComponent/dietViewCreatedProductsComponent';
+import { RecipeViewComponent } from '../dietManagment/recipeViewComponent/recipeViewComponent';
 
 export const routes: Routes = [
     { path: 'admin', component: UserComponent },
@@ -18,7 +19,8 @@ export const routes: Routes = [
             { path: '', redirectTo: 'view', pathMatch: 'full' }, 
             { path: 'view', component: ViewProductsComponent },
             { path: 'add', component: AddProductComponent },
-            { path: 'created', component: ViewCreatedProductsComponent }
+            { path: 'created', component: ViewCreatedProductsComponent },
+            { path: 'recipes', component: RecipeViewComponent }
         ]
     },
     { path: '', redirectTo: '/home', pathMatch: 'full' },

@@ -6,6 +6,7 @@ import { User } from '../../usersManagment/user-service/user';
 import { ProductByUserResponse } from './AA-ProductByUserResponse';
 import { ProductByUserAddRequest } from './AA-ProductByUserAddRequest';
 import { AppService } from '../../AAMain/appService';
+import { RecipeService } from './recipeService';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +18,10 @@ export class ProductService {
   public consumedProducts = signal<ProductByUserResponse[]>([]);
   public createdByUserProducts = signal<Product[]>([]);
   public productsSearched = signal<Product[]>([]);
+  public consumedRecipes = signal<ProductByUserResponse[]>([]);
 
-  constructor(private http: HttpClient, public appService: AppService) {
-
+  constructor(private http: HttpClient, public appService: AppService, public recipeService: RecipeService) {
+    this.recipeService = recipeService
   }
 
   ngOnInit() {
@@ -49,7 +51,10 @@ export class ProductService {
   public getProductsByUser(): void {
     this.http.get<any>(`${this.apiServerUrl}` + `productsByUser/${localStorage.getItem("userID")}/${this.appService.currentDateString()}`).subscribe((response) => {
       this.consumedProducts.set(response);
-      this.calculateMacrosForDay();
+        this.http.get<any>(`${this.apiServerUrl}` + `recipesByUser/${localStorage.getItem("userID")}/${this.appService.currentDateString()}`).subscribe((response) => {
+          this.consumedRecipes.set(response);
+          this.calculateMacrosForDay();
+        });
     });
   }
 
@@ -68,6 +73,14 @@ export class ProductService {
       proteins += entry.proteinCalculated;
       fats += entry.fatCalculated;
     }
+
+    for(const entry of this.consumedRecipes()){
+      kcal += entry.caloriesCalculated;
+      carbs += entry.carbsCalculated;
+      proteins += entry.proteinCalculated;
+      fats += entry.fatCalculated;
+    }
+
     this.appService.setCurrentKcalStats(kcal, carbs, proteins, fats);
   }
 }

@@ -15,6 +15,7 @@ export class AppService {
   public currentDateString = signal<string>('');
   public currentMonthName = signal<string>('');
   public visibleDays: Date[] = [];
+  public selectedTimeOfDay = signal<number>(0);
 
   public isLoggedIn(): boolean {
     return this.loggedUser() !== null;

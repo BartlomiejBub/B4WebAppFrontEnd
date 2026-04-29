@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppService } from '../../AAMain/appService';
 import { Product } from '../services/product';
 import { ProductService } from '../services/productService';
 import { waitForAsync } from '@angular/core/testing';
+import { RecipeService } from '../services/recipeService';
+import { Recipe } from '../services/recipe';
 
 @Component({
   selector: 'app-add-product',
@@ -14,17 +16,44 @@ import { waitForAsync } from '@angular/core/testing';
 export class AddProductComponent {
   public selectedProduct: Product | null = null;
   public isAddProductModalOpen: boolean = false;
+  public recipesSearched = signal<Recipe[]>([]);
 
-  constructor(private cdr: ChangeDetectorRef, public productService: ProductService, public appService: AppService) {
+  constructor(public recipeService: RecipeService, private cdr: ChangeDetectorRef, public productService: ProductService, public appService: AppService) {
     this.productService = productService;
     this.cdr = cdr;
     this.appService = appService;
+    this.recipeService = recipeService;
   }
   
   ngOnInit() {
     this.appService.updateDateView();
     this.productService.getProductsByUser();
     this.productService.getProducts();
+    this.cdr.detectChanges();
+    this.recipesSearched.set(this.recipeService.recipes());
+  }
+
+  public onSearch(searchInput: String){
+    this.onSearchProducts(searchInput);
+    this.onSearchrecipes(searchInput);
+  }
+
+  public onSearchrecipes(searchInput: String){
+    const results: Recipe[] = [];
+    let i = 0;
+    for (const recipe of this.recipeService.recipes()) {
+      if (recipe.name.toLowerCase().includes(searchInput.toLowerCase()) ||
+          recipe.header.toLowerCase().includes(searchInput.toLowerCase())
+        ) {
+
+        results.push(recipe);
+      }
+      i++;
+    }
+    this.recipesSearched.set(results);
+    if (!searchInput) {
+      this.recipesSearched.set(this.recipeService.recipes());
+    }
     this.cdr.detectChanges();
   }
 
@@ -76,7 +105,20 @@ export class AddProductComponent {
     if (idProduct === null || idProduct === undefined || weight.trim() === "" || Number(weight) <= 0) {
       alert("Proszę wypełnić wagę poprawnie!");
     } else {
-      this.productService.addProductByUser({ date: this.appService.currentDateString(), userID: Number(localStorage.getItem('userID')), productID: idProduct, weight: Number(weight) }).subscribe(
+      this.productService.addProductByUser({ date: this.appService.currentDateString(), userID: Number(localStorage.getItem('userID')), productID: idProduct, weight: Number(weight), time: this.appService.selectedTimeOfDay() }).subscribe(
+        (response) => {
+          this.productService.getProductsByUser();
+          this.cdr.detectChanges();
+        }
+      );
+  }
+  }
+
+  public onAddRecipeByUser(idRecipe: number | null | undefined, weight: string): void {
+    if (idRecipe === null || idRecipe === undefined || weight.trim() === "" || Number(weight) <= 0) {
+      alert("Proszę wypełnić wagę poprawnie!");
+    } else {
+      this.recipeService.addRecipeByUser({ date: this.appService.currentDateString(), userID: Number(localStorage.getItem('userID')), productID: idRecipe, weight: Number(weight), time: this.appService.selectedTimeOfDay() }).subscribe(
         (response) => {
           this.productService.getProductsByUser();
           this.cdr.detectChanges();

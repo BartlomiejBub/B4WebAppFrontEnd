@@ -1,7 +1,7 @@
 <div class="search-container">
   <div class="search-header-wrapper">
     <div class="search-header">
-      <input #searchInput type="text" class="search-input" placeholder="Wpisz nazwę produktu (np. Serek wiejski)... " (input)="onSearchProducts(searchInput.value)">
+      <input #searchInput type="text" class="search-input" placeholder="Wpisz nazwę produktu (np. Serek wiejski)... " (input)="onSearch(searchInput.value)">
     </div>
     <button class="btn-add-new" (click)="addProductModalOpen()">
       <i class="fas fa-plus"></i> Dodaj własny
@@ -28,6 +28,28 @@
       </div>
     </div>
   }
+
+  @for (recipe of this.recipesSearched(); track recipe.ID_Recipe) {
+    <div class="search-results">
+      <div class="product-item" >
+        <div class="item-info">
+          <h4>{{ recipe.name }}</h4>
+          <div class="item-macros">
+            <span class="badge">W 100g:</span>
+            <span class="kcal">🔥 {{ recipe.caloric }} kcal</span>
+            <span>B: {{ recipe.protein }}g</span>
+            <span>T: {{ recipe.fat }}g</span>
+            <span>W: {{ recipe.carbs }}g</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <input type="number" class="weight-input" placeholder="Waga (g)" #weightInput>
+          <button class="btn-add" (click)="onAddRecipeByUser(recipe.ID_Recipe, weightInput.value)">Dodaj</button>
+        </div>
+      </div>
+    </div>
+  }
+
 </div>
 
 @if (isAddProductModalOpen) {

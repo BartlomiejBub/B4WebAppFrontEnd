@@ -4,4 +4,5 @@ export interface ProductByUserAddRequest{
     userID: number;
     productID: number;
     weight: number;
+    time: number;
 }

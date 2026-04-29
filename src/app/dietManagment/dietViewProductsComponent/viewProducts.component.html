@@ -1,20 +1,220 @@
 <div class="list-container">
   <h3>Zjedzone posiłki i produkty</h3>
-  
-  @for (item of productService.consumedProducts(); track item.idOfEntry) {
-  <div class="product-item">
-    <div class="item-info">
-      <h4>{{ item.name }} <span>({{ item.weight }}g)</span></h4>
-      <div class="item-macros">
-        <span class="kcal"><i class="icon">🔥</i> {{ item.caloriesCalculated }} kcal</span>
-        <span>B: {{ item.proteinCalculated }}g</span>
-        <span>T: {{ item.fatCalculated }}g</span>
-        <span>W: {{ item.carbsCalculated }}g</span>
+
+  <div class="meal-section">
+    <div class="meal-header">
+      <h4>Śniadanie</h4>
+      <button (click)="changeTimeOfDay(1)" routerLink="../add" routerLinkActive="active" class="btn-add-meal" title="Dodaj do śniadania">
+        <i class="fas fa-plus"></i> </button>
+    </div>
+    
+    @for (item of productService.consumedProducts().filter((p) => p.time === 1 || p.time === 0 || p.time == null); track item.idOfEntry) {
+      <div class="product-item">
+        <div class="item-info">
+          <h4>{{ item.name }} <span>({{ item.weight }}g)</span></h4>
+          <div class="item-macros">
+            <span class="kcal"><i class="icon">🔥</i> {{ item.caloriesCalculated }} kcal</span>
+            <span>B: {{ item.proteinCalculated }}g</span>
+            <span>T: {{ item.fatCalculated }}g</span>
+            <span>W: {{ item.carbsCalculated }}g</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <button class="btn-delete" (click)="deleteEntry(item.idOfEntry)" title="Usuń z dzisiejszej listy">Usuń</button>
+        </div>
       </div>
-    </div>
-    <div class="item-actions">
-      <button class="btn-delete" (click)="deleteEntry(item.idOfEntry)" title="Usuń z dzisiejszej listy">Usuń</button>
-    </div>
+    }
+
+     @for (item of productService.consumedRecipes().filter((p) => p.time === 1 || p.time === 0 || p.time == null); track item.idOfEntry) {
+      <div class="product-item">
+        <div class="item-info">
+          <h4>{{ item.name }} <span>({{ item.weight }}g)</span></h4>
+          <div class="item-macros">
+            <span class="kcal"><i class="icon">🔥</i> {{ item.caloriesCalculated }} kcal</span>
+            <span>B: {{ item.proteinCalculated }}g</span>
+            <span>T: {{ item.fatCalculated }}g</span>
+            <span>W: {{ item.carbsCalculated }}g</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <button class="btn-delete" (click)="deleteEntryFromRecipe(item.idOfEntry)" title="Usuń z dzisiejszej listy">Usuń</button>
+        </div>
+      </div>
+    }
   </div>
-  }
+
+  <div class="meal-section">
+    <div class="meal-header">
+      <h4>Drugie śniadanie</h4>
+      <button (click)="changeTimeOfDay(2)" routerLink="../add" routerLinkActive="active" class="btn-add-meal" title="Dodaj do drugiego śniadania">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+
+     @for (item of productService.consumedProducts().filter((p) => p.time === 2); track item.idOfEntry) {
+      <div class="product-item">
+        <div class="item-info">
+          <h4>{{ item.name }} <span>({{ item.weight }}g)</span></h4>
+          <div class="item-macros">
+            <span class="kcal"><i class="icon">🔥</i> {{ item.caloriesCalculated }} kcal</span>
+            <span>B: {{ item.proteinCalculated }}g</span>
+            <span>T: {{ item.fatCalculated }}g</span>
+            <span>W: {{ item.carbsCalculated }}g</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <button class="btn-delete" (click)="deleteEntry(item.idOfEntry)" title="Usuń z dzisiejszej listy">Usuń</button>
+        </div>
+      </div>
+    }
+
+    @for (item of productService.consumedRecipes().filter((p) => p.time === 2); track item.idOfEntry) {
+      <div class="product-item">
+        <div class="item-info">
+          <h4>{{ item.name }} <span>({{ item.weight }}g)</span></h4>
+          <div class="item-macros">
+            <span class="kcal"><i class="icon">🔥</i> {{ item.caloriesCalculated }} kcal</span>
+            <span>B: {{ item.proteinCalculated }}g</span>
+            <span>T: {{ item.fatCalculated }}g</span>
+            <span>W: {{ item.carbsCalculated }}g</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <button class="btn-delete" (click)="deleteEntryFromRecipe(item.idOfEntry)" title="Usuń z dzisiejszej listy">Usuń</button>
+        </div>
+      </div>
+    }
+
+    </div>
+
+  <div class="meal-section">
+    <div class="meal-header">
+      <h4>Obiad</h4>
+      <button (click)="changeTimeOfDay(3)" routerLink="../add" routerLinkActive="active" class="btn-add-meal" title="Dodaj do obiadu">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+
+     @for (item of productService.consumedProducts().filter((p) => p.time === 3); track item.idOfEntry) {
+      <div class="product-item">
+        <div class="item-info">
+          <h4>{{ item.name }} <span>({{ item.weight }}g)</span></h4>
+          <div class="item-macros">
+            <span class="kcal"><i class="icon">🔥</i> {{ item.caloriesCalculated }} kcal</span>
+            <span>B: {{ item.proteinCalculated }}g</span>
+            <span>T: {{ item.fatCalculated }}g</span>
+            <span>W: {{ item.carbsCalculated }}g</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <button class="btn-delete" (click)="deleteEntry(item.idOfEntry)" title="Usuń z dzisiejszej listy">Usuń</button>
+        </div>
+      </div>
+    }
+
+     @for (item of productService.consumedRecipes().filter((p) => p.time === 3); track item.idOfEntry) {
+      <div class="product-item">
+        <div class="item-info">
+          <h4>{{ item.name }} <span>({{ item.weight }}g)</span></h4>
+          <div class="item-macros">
+            <span class="kcal"><i class="icon">🔥</i> {{ item.caloriesCalculated }} kcal</span>
+            <span>B: {{ item.proteinCalculated }}g</span>
+            <span>T: {{ item.fatCalculated }}g</span>
+            <span>W: {{ item.carbsCalculated }}g</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <button class="btn-delete" (click)="deleteEntryFromRecipe(item.idOfEntry)" title="Usuń z dzisiejszej listy">Usuń</button>
+        </div>
+      </div>
+    }
+    </div>
+
+  <div class="meal-section">
+    <div class="meal-header">
+      <h4>Przekąska</h4>
+      <button (click)="changeTimeOfDay(4)" routerLink="../add" routerLinkActive="active" class="btn-add-meal" title="Dodaj do przekąski">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+
+     @for (item of productService.consumedProducts().filter((p) => p.time === 4); track item.idOfEntry) {
+      <div class="product-item">
+        <div class="item-info">
+          <h4>{{ item.name }} <span>({{ item.weight }}g)</span></h4>
+          <div class="item-macros">
+            <span class="kcal"><i class="icon">🔥</i> {{ item.caloriesCalculated }} kcal</span>
+            <span>B: {{ item.proteinCalculated }}g</span>
+            <span>T: {{ item.fatCalculated }}g</span>
+            <span>W: {{ item.carbsCalculated }}g</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <button class="btn-delete" (click)="deleteEntry(item.idOfEntry)" title="Usuń z dzisiejszej listy">Usuń</button>
+        </div>
+      </div>
+    }
+
+     @for (item of productService.consumedRecipes().filter((p) => p.time === 4); track item.idOfEntry) {
+      <div class="product-item">
+        <div class="item-info">
+          <h4>{{ item.name }} <span>({{ item.weight }}g)</span></h4>
+          <div class="item-macros">
+            <span class="kcal"><i class="icon">🔥</i> {{ item.caloriesCalculated }} kcal</span>
+            <span>B: {{ item.proteinCalculated }}g</span>
+            <span>T: {{ item.fatCalculated }}g</span>
+            <span>W: {{ item.carbsCalculated }}g</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <button class="btn-delete" (click)="deleteEntryFromRecipe(item.idOfEntry)" title="Usuń z dzisiejszej listy">Usuń</button>
+        </div>
+      </div>
+    }
+
+    </div>
+
+  <div class="meal-section">
+    <div class="meal-header">
+      <h4>Kolacja</h4>
+      <button (click)="changeTimeOfDay(5)" routerLink="../add" routerLinkActive="active" class="btn-add-meal" title="Dodaj do kolacji">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+
+     @for (item of productService.consumedProducts().filter((p) => p.time === 5); track item.idOfEntry) {
+      <div class="product-item">
+        <div class="item-info">
+          <h4>{{ item.name }} <span>({{ item.weight }}g)</span></h4>
+          <div class="item-macros">
+            <span class="kcal"><i class="icon">🔥</i> {{ item.caloriesCalculated }} kcal</span>
+            <span>B: {{ item.proteinCalculated }}g</span>
+            <span>T: {{ item.fatCalculated }}g</span>
+            <span>W: {{ item.carbsCalculated }}g</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <button class="btn-delete" (click)="deleteEntry(item.idOfEntry)" title="Usuń z dzisiejszej listy">Usuń</button>
+        </div>
+      </div>
+    }
+
+     @for (item of productService.consumedRecipes().filter((p) => p.time === 5); track item.idOfEntry) {
+      <div class="product-item">
+        <div class="item-info">
+          <h4>{{ item.name }} <span>({{ item.weight }}g)</span></h4>
+          <div class="item-macros">
+            <span class="kcal"><i class="icon">🔥</i> {{ item.caloriesCalculated }} kcal</span>
+            <span>B: {{ item.proteinCalculated }}g</span>
+            <span>T: {{ item.fatCalculated }}g</span>
+            <span>W: {{ item.carbsCalculated }}g</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <button class="btn-delete" (click)="deleteEntryFromRecipe(item.idOfEntry)" title="Usuń z dzisiejszej listy">Usuń</button>
+        </div>
+      </div>
+    }
+    </div>
+
 </div>
