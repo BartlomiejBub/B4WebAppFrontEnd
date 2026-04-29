@@ -1,5 +1,5 @@
 
-import { Component, signal, Signal } from '@angular/core';
+import { Component, effect, signal, Signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { AppService } from '../../AAMain/appService';
@@ -25,6 +25,10 @@ export class RecipeViewComponent {
     this.cdr = cdr;
     this.appService = appService;
     this.productService = productService;
+
+    effect(() => {
+      this.onSearchrecipes(''); 
+    });
   }
 
   public selectedRecipeProducts: number[] = [];
@@ -51,10 +55,10 @@ export class RecipeViewComponent {
   ngOnInit() {
     this.appService.updateDateView();
     this.recipeService.getRecipes();
-    this.cdr.detectChanges();
     this.searchedRecipes.set(this.recipeService.recipes());
     this.searchedRecipesProducts.set(this.recipeService.productsRequired());
     this.searchedRecipesProductsWeights.set(this.recipeService.weightsRequired());
+    this.cdr.detectChanges();
   }
 
  public openAddRecipeModal(): void {
@@ -75,6 +79,7 @@ export class RecipeViewComponent {
   public onSearchrecipes(searchInput: String){
     const results: Recipe[] = [];
     let i = 0;
+    let newI = 0;
     for (const recipe of this.recipeService.recipes()) {
       if (recipe.name.toLowerCase().includes(searchInput.toLowerCase()) ||
           recipe.description.toLowerCase().includes(searchInput.toLowerCase()) ||
@@ -83,17 +88,18 @@ export class RecipeViewComponent {
 
         this.searchedRecipesProducts.update((currentProducts) => {
           const updatedProducts = [...currentProducts];
-          updatedProducts[i] = this.recipeService.productsRequired()[i];
+          updatedProducts[newI] = this.recipeService.productsRequired()[i];
           return updatedProducts;
         });
 
         this.searchedRecipesProductsWeights.update((currentProducts) => {
           const updatedWeights = [...currentProducts];
-          updatedWeights[i] = this.recipeService.weightsRequired()[i];
+          updatedWeights[newI] = this.recipeService.weightsRequired()[i];
           return updatedWeights;
         });
 
         results.push(recipe);
+        newI++;
       }
       i++;
     }

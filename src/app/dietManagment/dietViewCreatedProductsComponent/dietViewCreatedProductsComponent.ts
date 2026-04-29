@@ -5,6 +5,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { AppService } from '../../AAMain/appService';
 import { Product } from '../services/product';
 import { ProductService } from '../services/productService';
+import { RecipeService } from '../services/recipeService';
 
 @Component({
   selector: 'app-view-created-products',
@@ -14,16 +15,18 @@ import { ProductService } from '../services/productService';
 })
 export class ViewCreatedProductsComponent {
 
-  constructor(private cdr: ChangeDetectorRef, public productService: ProductService, public appService: AppService) {
+  constructor(public recipeService: RecipeService, private cdr: ChangeDetectorRef, public productService: ProductService, public appService: AppService) {
     this.productService = productService;
     this.cdr = cdr;
     this.appService = appService;
+    this.recipeService = recipeService;
   }
   
   ngOnInit() {
     this.appService.updateDateView();
     this.productService.getProducts();
     this.productService.getProductsByUser();
+    this.recipeService.getRecipes();
     this.cdr.detectChanges();
   }
 

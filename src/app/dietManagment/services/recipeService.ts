@@ -16,6 +16,9 @@ import { ProductService } from './productService';
 export class RecipeService {
 
   private apiServerUrl = 'http://localhost:8080/api/v1/'
+  public createdByUserRecipes = signal<Recipe[]>([]);
+  public createdByUserRecipesProducts = signal<Product[][]>([[]]);
+  public createdByUserRecipesProductsWeights = signal<number[][]>([[]]);
   public productsRequired = signal<Product[][]>([[]]);
   public weightsRequired = signal<number[][]>([[]]);
   public recipes = signal<Recipe[]>([]);
@@ -31,14 +34,32 @@ export class RecipeService {
     this.http.get<any>(`${this.apiServerUrl}recipe`).subscribe((response) => {
       this.recipes.set(response);
 
+      this.createdByUserRecipes.set([]);
+      this.createdByUserRecipesProducts.set([]);
+      this.createdByUserRecipesProductsWeights.set([]);
+
       for (let i = 0; i < this.recipes().length; i++) {
 
         const recipe = this.recipes()[i];
+
+        if(recipe.userID === Number(localStorage.getItem("userID"))){
+          this.createdByUserRecipes.update((currentRecipes) => {
+            const updatedRecipes = [...currentRecipes];
+            updatedRecipes.push(recipe);
+            return updatedRecipes;
+        });
 
         this.http.get<any>(`${this.apiServerUrl}recipe/getProductsFromRecipe/${recipe.ID_Recipe}`).subscribe((response) => {
             this.productsRequired.update((currentProducts) => {
               const updatedProducts = [...currentProducts];
               updatedProducts[i] = response;
+              if(recipe.userID === Number(localStorage.getItem("userID"))){
+                this.createdByUserRecipesProducts.update((currentCreatedByUserRecipesProducts) => {
+                  const updatedCreatedByUserRecipesProducts = [...currentCreatedByUserRecipesProducts];
+                  updatedCreatedByUserRecipesProducts.push(response);
+                  return updatedCreatedByUserRecipesProducts;
+                });
+              }
               return updatedProducts;
             });
         });
@@ -47,12 +68,18 @@ export class RecipeService {
           this.weightsRequired.update((currentWeights) => {
             const updatedWeights = [...currentWeights];
             updatedWeights[i] = response;
+            if(recipe.userID === Number(localStorage.getItem("userID"))){
+              this.createdByUserRecipesProductsWeights.update((currentCreatedByUserRecipesProductsWeights) => {
+                const updatedCreatedByUserRecipesProductsWeights = [...currentCreatedByUserRecipesProductsWeights];
+                updatedCreatedByUserRecipesProductsWeights.push(response);
+                return updatedCreatedByUserRecipesProductsWeights;
+              });
+            }
             return updatedWeights;
           });
         });
-
+        }
       }
-      
     });
   }
 

@@ -17,4 +17,51 @@
     </div>
   </div>
   }
+
+  <h3>Stworzone przepisy</h3>
+
+  @for (recipe of this.recipeService.createdByUserRecipes(); track recipe.ID_Recipe; let i = $index) {
+  <div class="recipe-item">
+    <div class="item-info">
+      
+      <div class="recipe-title-row">
+        <h4>{{ recipe.name }}</h4>
+        <span class="time-badge"><i class="far fa-clock"></i> {{ recipe.timeToCook }} min</span>
+      </div>
+      
+      <p class="recipe-header">{{ recipe.header }}</p>
+
+      <div class="recipe-portions">
+        <span>1 porcja: <strong>{{ recipe.gramsInOne }}g</strong></span>
+        <span>Ilość porcji: <strong>{{ recipe.portion }}</strong></span>
+      </div>
+
+      <div class="item-macros">
+        <span class="kcal"><i class="icon">🔥</i> {{ recipe.caloric }} kcal</span>
+        <span>B: {{ recipe.protein }}g</span>
+        <span>T: {{ recipe.fat }}g</span>
+        <span>W: {{ recipe.carbs }}g</span>
+      </div>
+
+      @if (this.recipeService.createdByUserRecipesProducts()[i] && this.recipeService.createdByUserRecipesProducts()[i].length > 0) {
+        <div class="recipe-ingredients">
+          <h5>Składniki:</h5>
+          <ul class="ingredients-list">
+            @for (product of this.recipeService.createdByUserRecipesProducts()[i]; track product.ID_Product) {
+              <li>
+                {{ product.name }} 
+                <span class="product-kcal">({{ product.caloric }} kcal / 100g)</span>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+    </div>
+    
+    <div class="item-actions">
+      <button class="btn-delete" (click)="this.recipeService.deleteRecipe(recipe.ID_Recipe!)" title="Usuń przepis z bazy">Usuń</button>
+    </div>
+  </div>
+  }
 </div>
