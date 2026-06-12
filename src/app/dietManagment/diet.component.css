@@ -1,5 +1,4 @@
 .diet-dashboard {
-  /* Usunięto padding-right: 15% bo podsumowanie nie jest już z boku */
   max-width: 900px; 
   margin: 0 auto;
   padding: 10px 20px;
@@ -7,9 +6,6 @@
   color: #333;
 }
 
-/* =========================================
-   ŚCIŚNIĘTY PASEK DATY (PRZYKLEJONY)
-   ========================================= */
 .date-navigator.compact-date {
   position: sticky;
   top: 60px; 
@@ -29,7 +25,7 @@
   font-weight: 700;
   color: #334155;
   text-transform: capitalize;
-  margin-bottom: 8px; /* Zmniejszony margines */
+  margin-bottom: 8px; 
 }
 
 .compact-date .days-row {
@@ -44,7 +40,7 @@
   flex-grow: 1;
   padding: 0 5px;
   overflow-x: auto;
-  scrollbar-width: none; /* Ukrywanie scrollbara */
+  scrollbar-width: none;
   -ms-overflow-style: none;
 }
 .compact-date .days-list::-webkit-scrollbar { display: none; }
@@ -54,8 +50,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 36px; /* Ściśnięte w poziomie */
-  height: 46px; /* Ściśnięte w pionie */
+  width: 36px; 
+  height: 46px; 
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -68,7 +64,7 @@
 }
 
 .compact-date .day-name {
-  font-size: 10px; /* Mniejsza czcionka */
+  font-size: 10px; 
   font-weight: 600;
   margin-bottom: 2px;
   color: #94a3b8;
@@ -76,7 +72,7 @@
 }
 
 .compact-date .day-number {
-  font-size: 15px; /* Mniejsza czcionka */
+  font-size: 15px; 
   font-weight: 700;
   color: #1e293b;
 }
@@ -84,9 +80,6 @@
 .compact-date .day-item.active .day-name,
 .compact-date .day-item.active .day-number { color: #ffffff; }
 
-/* =========================================
-   POZIOME, ŚCIŚNIĘTE PODSUMOWANIE
-   ========================================= */
 .summary-section.compact-summary {
   position: sticky;
   top: 100px; 
@@ -95,13 +88,13 @@
 
 .compact-summary .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 kafelki w jednym rzędzie */
+  grid-template-columns: repeat(4, 1fr); 
   gap: 10px;
 }
 
 .compact-summary .stat-card {
   background: #fff;
-  padding: 10px 12px; /* Mniejsze paddingi */
+  padding: 10px 12px; 
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.03);
   border: 1px solid #eee;
@@ -118,7 +111,7 @@
 }
 
 .compact-summary .stat-card .current {
-  font-size: 16px; /* Zmniejszone z 24px */
+  font-size: 16px; 
   font-weight: bold;
   margin: 0 0 8px 0;
 }
@@ -130,7 +123,7 @@
 }
 
 .progress-bar {
-  height: 6px; /* Cieńszy pasek */
+  height: 6px; 
   background: #f0f0f0;
   border-radius: 4px;
   overflow: hidden;
@@ -147,12 +140,9 @@
 .fat .fill { background: #ffe66d; min-width: 5px; width: 5px; }
 .carbs .fill { background: #45b7d1; min-width: 5px; width: 5px; }
 
-/* =========================================
-   ZAKŁADKI NAWIGACJI
-   ========================================= */
 .diet-nav.compact-nav {
   display: flex;
-  justify-content: center; /* Wyśrodkowane dla lepszego wyglądu */
+  justify-content: center; 
   gap: 10px;
   margin-bottom: 15px;
   border-bottom: 1px solid #eee;
@@ -163,7 +153,7 @@
   text-decoration: none;
   color: #666;
   font-weight: 600;
-  padding: 6px 14px; /* Ściśnięte */
+  padding: 6px 14px; 
   font-size: 14px;
   border-radius: 8px;
   transition: all 0.2s ease;

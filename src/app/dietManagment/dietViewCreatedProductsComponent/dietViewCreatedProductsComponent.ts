@@ -37,4 +37,11 @@ export class ViewCreatedProductsComponent {
     });
   }
 
+  public deleteEntryRecipe(idOfEntry: number){
+    this.recipeService.deleteRecipe(idOfEntry).subscribe((response) => {
+          this.recipeService.getRecipes();
+          this.cdr.detectChanges();
+    });
+  }
+
 }

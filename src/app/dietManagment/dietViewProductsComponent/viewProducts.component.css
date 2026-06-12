@@ -1,6 +1,6 @@
 .list-container h3 { 
   margin-top: 0; 
-  margin-bottom: 25px; /* Lekko zwiększone, by oddzielić od pierwszej sekcji */
+  margin-bottom: 25px; 
   color: #333; 
   font-size: 1.2rem;
 }
@@ -62,12 +62,9 @@
   color: #fff;
 }
 
-/* =======================================================
-   NOWE STYLE DLA SEKCJI POSIŁKÓW I PRZYCISKU DODAWANIA
-   ======================================================= */
 
 .meal-section {
-  margin-bottom: 25px; /* Odstęp między poszczególnymi posiłkami */
+  margin-bottom: 25px; 
 }
 
 .meal-header {
@@ -86,7 +83,6 @@
   font-weight: 600;
 }
 
-/* Przycisk "+" zachowujący prosty styl z Twojego przycisku "Usuń" */
 .btn-add-meal {
   background: #f0fdf4;
   color: #10b981;

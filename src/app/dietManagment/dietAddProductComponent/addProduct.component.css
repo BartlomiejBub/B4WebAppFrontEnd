@@ -1,6 +1,3 @@
-/* =========================================
-   PASEK NAWIGACJI DATY (Styl Fitatu)
-   ========================================= */
 .date-navigator {
   background: #ffffff;
   border-radius: 16px;
@@ -49,7 +46,6 @@
   background: #f8fafc;
 }
 
-/* Styl dla aktualnie wybranego dnia */
 .day-item.active {
   background: #4f46e5;
   box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
@@ -92,18 +88,15 @@
 
 
 
-/* =========================================
-   WYSZUKIWARKA I PRZYCISK DODAWANIA
-   ========================================= */
 .search-header-wrapper {
   display: flex;
   gap: 15px;
-  align-items: center; /* Wyśrodkowanie w pionie, żeby przycisk i input były równo */
-  margin-bottom: 25px; /* Margines oddzielający od listy wyników */
+  align-items: center; 
+  margin-bottom: 25px; 
 }
 
 .search-header {
-  flex-grow: 1; /* Wyszukiwarka zajmuje całe wolne miejsce */
+  flex-grow: 1;
 }
 
 .search-input {
@@ -138,9 +131,6 @@
   background: #059669; 
 }
 
-/* =========================================
-   LISTA WYNIKÓW (STARE STYLE KART PRODUKTÓW)
-   ========================================= */
 .product-item {
   display: flex;
   justify-content: space-between;
@@ -207,13 +197,10 @@
   background: #4338ca; 
 }
 
-/* =========================================
-   MODAL DODAWANIA WŁASNEGO PRODUKTU
-   ========================================= */
 .macro-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0 15px; /* Odstęp tylko w poziomie, pionowy załatwia .form-group */
+  gap: 0 15px; 
   background: #f8fafc;
   padding: 15px;
   border-radius: 8px;
@@ -255,25 +242,20 @@
   border-color: #4f46e5;
 }
 
-/* =========================================
-   STYLE MODALA (OVERLAY, PUDŁO, PRZYCISKI)
-   ========================================= */
 
-/* Tło przyciemniające całą stronę */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5); /* Półprzezroczysty czarny */
+  background: rgba(0, 0, 0, 0.5); 
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Gwarantuje, że modal będzie NAD wszystkim innym */
+  z-index: 1000; 
 }
 
-/* Główne okno modala */
 .modal-box {
   background: #ffffff;
   width: 90%;
@@ -281,12 +263,10 @@
   border-radius: 12px;
   padding: 25px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  /* Zabezpieczenie na małych ekranach: */
   max-height: 90vh;
   overflow-y: auto; 
 }
 
-/* Nagłówek modala */
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -302,7 +282,6 @@
   font-size: 1.2rem;
 }
 
-/* Przycisk X (Zamknij) */
 .close-btn {
   background: transparent;
   border: none;
@@ -313,10 +292,9 @@
 }
 
 .close-btn:hover {
-  color: #ef4444; /* Czerwony przy najechaniu */
+  color: #ef4444; 
 }
 
-/* Stopka z przyciskami */
 .modal-footer {
   display: flex;
   justify-content: flex-end;
@@ -326,7 +304,6 @@
   border-top: 1px solid #e2e8f0;
 }
 
-/* Przycisk Anuluj */
 .btn-cancel {
   background: #f1f5f9;
   color: #475569;
@@ -342,7 +319,6 @@
   background: #e2e8f0;
 }
 
-/* Przycisk Zapisz produkt */
 .btn-success {
   background: #10b981;
   color: #ffffff;
