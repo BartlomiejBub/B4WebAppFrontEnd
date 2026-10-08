@@ -1,3 +1,7 @@
+# Hello, this is a project of diet application created by student of AGH Cracov. This project was made with REST API Spring Boot Java server and Angular frontend, focusing on communication between server and client and big amount of interactions that user can make, what it`s not focusing in most is design what was mostly made with AI as I`m not a person who has a feeling of design and colors, but a person who is great in making things work as it should, like designing logic of entire application. More informations are written above specific sections of the code ( functions classes etc. ) or on README on github. Hope You enjoy the web application!
+
+# Bartłomiej Bubicz
+
 # FrontEndApki
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.1.

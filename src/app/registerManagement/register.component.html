@@ -1,0 +1,52 @@
+<div class="register-wrapper">
+  <div class="register-card">
+    <div class="register-header">
+      <h2>{{ t.register.title }}</h2>
+      <p class="subtitle">{{ t.register.subtitle }}</p>
+    </div>
+
+    <div class="register-body">
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label>{{ t.common.firstName }}</label>
+          <input type="text" #regNameInput class="form-control" [placeholder]="t.register.firstNamePlaceholder">
+        </div>
+        <div class="form-group half-width">
+          <label>{{ t.common.lastName }}</label>
+          <input type="text" #regSurnameInput class="form-control" [placeholder]="t.register.lastNamePlaceholder">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>{{ t.common.login }}</label>
+        <input type="text" #regLoginInput class="form-control" [placeholder]="t.register.loginPlaceholder">
+      </div>
+
+      <div class="form-group">
+        <label>{{ t.register.emailLabel }}</label>
+        <input type="email" #regEmailInput class="form-control" [placeholder]="t.register.emailPlaceholder">
+      </div>
+
+      <div class="form-group">
+        <label>{{ t.common.password }}</label>
+        <input type="password" #regPassInput class="form-control" [placeholder]="t.register.passwordPlaceholder">
+      </div>
+      
+      <div class="form-group">
+        <label>{{ t.register.confirmPassword }}</label>
+        <input type="password" #regPassConfirmInput class="form-control" [placeholder]="t.register.confirmPasswordPlaceholder">
+      </div>
+    </div>
+
+    <div class="register-footer">
+      <button class="btn-primary full-width register-btn" 
+              (click)="onAddUserRaw(regNameInput.value, regSurnameInput.value, regLoginInput.value, regEmailInput.value, regPassInput.value)">
+        {{ t.register.submit }}
+      </button>
+      
+      <div class="login-prompt">
+        {{ t.register.haveAccount }} <a routerLink="/home" class="login-link">{{ t.register.loginLink }}</a>
+      </div>
+    </div>
+  </div>
+</div>

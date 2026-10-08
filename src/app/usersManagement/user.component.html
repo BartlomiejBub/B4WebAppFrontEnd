@@ -1,0 +1,225 @@
+<div id="main-container" class="app-container">
+  <div class="table-card">
+    <div class="card-header">
+      <h2>{{ t.admin.title }}</h2>
+      
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" #searchInput (input)="onSearchUsers(searchInput.value)" [placeholder]="t.admin.searchPlaceholder">
+      </div>
+
+      <button (click)="onOpenAddModal()" class="add-btn"><i class="fas fa-plus"></i> {{ t.admin.addButton }}</button>
+    </div>
+    
+    <div class="table-responsive">
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>{{ t.admin.columnUser }}</th>
+            <th class="text-center">{{ t.admin.columnStatus }}</th>
+            <th>{{ t.admin.columnEmail }}</th>
+            <th class="text-center">{{ t.admin.columnActions }}</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          @for (user of users; track user.login) {
+            
+          <tr>
+            <td>
+              <div class="user-info">
+                <img [src]="'https://api.dicebear.com/7.x/initials/svg?seed=' + user.login" alt="Avatar" class="avatar">
+                <div class="user-details">
+                  <span class="user-name">{{ user.name }} {{ user.surname }} ({{ user.login }})</span>
+                  <span class="user-role">{{ user.userRole.toString() }}</span>
+                </div>
+              </div>
+            </td>
+            <td class="text-center">
+              <span class="status-badge" [ngClass]="user.enabled ? 'active' : 'pending'">
+                {{ user.enabled ? t.admin.statusActive : t.admin.statusPending }}
+              </span>
+            </td>
+            <td>
+              <a href="mailto:{{ user.email }}" class="email-link">{{ user.email }}</a>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button (click)="onOpenUserModal(user, 'view')" class="action-btn view" [title]="t.admin.viewTooltip">
+                  <i class="fas fa-search"></i>
+                </button>
+                <button (click)="onOpenUserModal(user, 'edit')" class="action-btn edit" [title]="t.admin.editTooltip">
+                  <i class="fas fa-pen"></i>
+                </button>
+                <button (click)="onOpenUserModal(user, 'delete')" class="action-btn delete" [title]="t.admin.deleteTooltip">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="4" class="empty-state">
+              <i class="fas fa-inbox empty-icon"></i>
+              <p>{{ t.admin.empty }}</p>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+@if (activeModal === 'delete') {
+            <div class="modal-overlay" (click)="closeModal()">
+                
+                <div class="modal-box" (click)="$event.stopPropagation()">
+                  <div class="modal-header">
+                    <h3>{{ t.admin.deleteTitle }}</h3>
+                    <button class="close-btn" (click)="closeModal()"><i class="fas fa-times"></i></button>
+                  </div>
+                  
+                  <div class="modal-body">
+                    <p>{{ t.admin.deleteConfirmBefore }}<strong>{{ selectedUser?.login }}</strong>{{ t.admin.deleteConfirmAfter }}</p>
+                    <p class="text-danger">{{ t.admin.deleteWarning }}</p>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button class="btn-cancel" (click)="closeModal()">{{ t.common.cancel }}</button>
+                    @if(selectedUser != null){
+                      <button class="btn-danger" (click)="deleteUser(selectedUser.ID_User)">{{ t.admin.deleteConfirmButton }}</button>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+
+@if (activeModal === 'edit') {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ t.admin.editTitle }}</h3>
+        <button class="close-btn" (click)="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <div class="modal-body modal-body-edit">
+        <div class="form-group">
+          <label>{{ t.common.login }} ({{selectedUser?.ID_User}})</label>
+          <input type="text" [value]="selectedUser?.login" disabled #loginInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>{{ t.common.firstName }}</label>
+          <input type="text" [value]="selectedUser?.name" #imieInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>{{ t.common.lastName }}</label>
+          <input type="text" [value]="selectedUser?.surname" #nazwiskoInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>{{ t.common.email }}</label>
+          <input type="email" [value]="selectedUser?.email" #emailInput class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>{{ t.admin.roleLabel }}</label>
+          <select #rolaInput class="form-control">
+            <option value= "USER" [selected]="selectedUser?.userRole?.toString() == 'USER'">{{ t.admin.roleUser }}</option>
+            <option value= "ADMIN" [selected]="selectedUser?.userRole?.toString() == 'ADMIN'">{{ t.admin.roleAdmin }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>{{ t.admin.accountActivity }}</label>
+          <select #aktywnoscInput class="form-control">
+            <option value="true" [selected]="selectedUser?.enabled === true">{{ t.admin.active }}</option>
+            <option value="false" [selected]="selectedUser?.enabled === false">{{ t.admin.inactive }}</option>
+          </select>
+        </div>
+        </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeModal()">{{ t.common.cancel }}</button>
+        <button class="btn-success" 
+                (click)="onEditUserRaw(imieInput.value, nazwiskoInput.value, emailInput.value, aktywnoscInput.value === 'true', rolaInput.value)">
+          {{ t.common.save }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (activeModal === 'add') {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ t.admin.addTitle }}</h3>
+        <button class="close-btn" (click)="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label>{{ t.common.firstName }}</label>
+          <input type="text" #imieInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>{{ t.common.lastName }}</label>
+          <input type="text" #nazwiskoInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>{{ t.common.login }}</label>
+          <input type="text" #loginInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>{{ t.common.email }}</label>
+          <input type="email" #emailInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>{{ t.common.password }}</label>
+          <input type="password" #hasloInput class="form-control">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeModal()">{{ t.common.cancel }}</button>
+        <button class="btn-success" 
+                (click)="onAddUserRaw(imieInput.value, nazwiskoInput.value, loginInput.value, emailInput.value, hasloInput.value)">
+          {{ t.common.save }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (activeModal === 'view') {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ t.admin.viewTitle }}</h3>
+        <button class="close-btn" (click)="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label>{{ t.common.firstName }}</label>
+          <input type="text" [value]="selectedUser?.name" disabled #imieInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>{{ t.common.lastName }}</label>
+          <input type="text" [value]="selectedUser?.surname" disabled #nazwiskoInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>{{ t.common.login }}</label>
+          <input type="text" [value]="selectedUser?.login" disabled #loginInput class="form-control">
+        </div>
+        <div class="form-group">
+          <label>{{ t.common.email }}</label>
+          <input type="email" [value]="selectedUser?.email" disabled #emailInput class="form-control">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeModal()">{{ t.common.close }}</button>
+      </div>
+    </div>
+  </div>
+}

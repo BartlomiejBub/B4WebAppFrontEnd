@@ -1,0 +1,63 @@
+<div class="list-container">
+  <h3>{{ t.eaten.title }}</h3>
+
+  <!-- nothing new, just a boring next lists loops and proposing adding item if section is empty -->
+
+  @for (meal of mealTimes; track meal.value) {
+    <div class="meal-section">
+      <div class="meal-header">
+        <h4>
+          {{ meal.label }}
+          @if (mealKcal(meal.value) > 0) {
+            <span class="meal-kcal">· {{ mealKcal(meal.value) }} kcal</span>
+          }
+        </h4>
+        <button (click)="changeTimeOfDay(meal.value)" routerLink="../add" class="btn-add-meal" [title]="meal.addTitle">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+
+      @for (item of entriesForMeal(productService.consumedProducts(), meal.value); track item.idOfEntry) {
+        <div class="product-item">
+          <div class="item-info">
+            <h4>{{ item.name }} <span>({{ item.weight }}g)</span></h4>
+            <div class="item-macros">
+              <span class="kcal"><i class="icon">🔥</i> {{ item.caloriesCalculated }} kcal</span>
+              <span>{{ t.common.proteinShort }}: {{ item.proteinCalculated }}g</span>
+              <span>{{ t.common.fatShort }}: {{ item.fatCalculated }}g</span>
+              <span>{{ t.common.carbsShort }}: {{ item.carbsCalculated }}g</span>
+            </div>
+          </div>
+          <div class="item-actions">
+            <button class="btn-delete" (click)="deleteEntry(item.idOfEntry)" [title]="t.eaten.deleteTooltip">{{ t.common.delete }}</button>
+          </div>
+        </div>
+      }
+
+      @for (item of entriesForMeal(productService.consumedRecipes(), meal.value); track item.idOfEntry) {
+        <div class="product-item">
+          <div class="item-info">
+            <h4>{{ item.name }} <span>({{ item.weight }}g)</span></h4>
+            <div class="item-macros">
+              <span class="kcal"><i class="icon">🔥</i> {{ item.caloriesCalculated }} kcal</span>
+              <span>{{ t.common.proteinShort }}: {{ item.proteinCalculated }}g</span>
+              <span>{{ t.common.fatShort }}: {{ item.fatCalculated }}g</span>
+              <span>{{ t.common.carbsShort }}: {{ item.carbsCalculated }}g</span>
+            </div>
+          </div>
+          <div class="item-actions">
+            <button class="btn-delete" (click)="deleteEntryFromRecipe(item.idOfEntry)" [title]="t.eaten.deleteTooltip">{{ t.common.delete }}</button>
+          </div>
+        </div>
+      }
+
+      @if (isMealEmpty(meal.value)) {
+        <div class="meal-empty">
+          {{ t.eaten.emptyMeal }}
+          <a (click)="changeTimeOfDay(meal.value)" routerLink="../add">{{ t.eaten.emptyMealLink }}</a>
+        </div>
+      }
+    </div>
+  }
+
+</div>

@@ -1,0 +1,64 @@
+<div class="diet-dashboard">
+  
+  <div class="date-navigator compact-date">
+    <div class="month-header">
+      <span>{{ appService.currentMonthName() }}</span>
+    </div>
+    <div class="days-row">
+      <div class="days-list">
+        @for (day of appService.visibleDays; track day.toISOString()) {
+          <div class="day-item" 
+               [class.active]="isSameDay(day, appService.currentDateString())" 
+               (click)="selectDate(day)">
+            <span class="day-name">{{ getDayName(day) }}</span>
+            <span class="day-number">{{ day.getDate() }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <section class="summary-section compact-summary">
+    <div class="stats-grid">
+      <div class="stat-card main-calories">
+        <h3>{{ t.diet.calories }}</h3>
+        <p class="current">{{appService.getCurrentKcal() }} <span>/ {{maxKcal}}</span></p>
+        <div class="progress-bar"><div class="fill" [style.background]="appService.getCurrentKcal() > maxKcal ? 'red' : '#ff6b6b'" [style.width]="getPercent(appService.getCurrentKcal(), maxKcal) + '%'"></div></div>
+        <span class="remaining" [class.over]="appService.getCurrentKcal() > maxKcal">{{ remainingText(appService.getCurrentKcal(), maxKcal, ' kcal') }}</span>
+      </div>
+      
+      <div class="stat-card macros">
+        <h3>{{ t.diet.protein }}</h3>
+        <p class="current">{{appService.getCurrentProteins()}}g <span>/ {{maxProteins}}g</span></p>
+        <div class="progress-bar protein"><div class="fill" [style.background]="appService.getCurrentProteins() > maxProteins ? 'red' : '#4ecdc4'" [style.width]="getPercent(appService.getCurrentProteins(), maxProteins) + '%'"></div></div>
+        <span class="remaining" [class.over]="appService.getCurrentProteins() > maxProteins">{{ remainingText(appService.getCurrentProteins(), maxProteins, 'g') }}</span>
+      </div>
+
+      <div class="stat-card macros">
+        <h3>{{ t.diet.fats }}</h3>
+        <p class="current">{{appService.getCurrentFats()}}g <span>/ {{maxFats}}g</span></p>
+        <div class="progress-bar fat"><div class="fill" [style.background]="appService.getCurrentFats() > maxFats ? 'red' : '#ffe66d'" [style.width]="getPercent(appService.getCurrentFats(), maxFats) + '%'"></div></div>
+        <span class="remaining" [class.over]="appService.getCurrentFats() > maxFats">{{ remainingText(appService.getCurrentFats(), maxFats, 'g') }}</span>
+      </div>
+
+      <div class="stat-card macros">
+        <h3>{{ t.diet.carbs }}</h3>
+        <p class="current">{{appService.getCurrentCarbs()}}g <span>/ {{maxCarbs}}g</span></p>
+        <div class="progress-bar carbs"><div class="fill" [style.background]="appService.getCurrentCarbs() > maxCarbs ? 'red' : '#45b7d1'" [style.width]="getPercent(appService.getCurrentCarbs(), maxCarbs) + '%'"></div></div>
+        <span class="remaining" [class.over]="appService.getCurrentCarbs() > maxCarbs">{{ remainingText(appService.getCurrentCarbs(), maxCarbs, 'g') }}</span>
+      </div>
+    </div>
+  </section>
+
+  <nav class="diet-nav compact-nav">
+    <a routerLink="view" routerLinkActive="active" class="nav-tab">{{ t.diet.tabEaten }}</a>
+    <a routerLink="created" routerLinkActive="active" class="nav-tab">{{ t.diet.tabCreated }}</a>
+    <a routerLink="recipes" routerLinkActive="active" class="nav-tab">{{ t.diet.tabRecipes }}</a>
+    <a routerLink="goals" routerLinkActive="active" class="nav-tab">{{ t.diet.tabGoals }}</a>
+  </nav>
+
+  <main class="diet-content">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

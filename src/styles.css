@@ -1,7 +1,37 @@
+
+/* As somebody reads it, the looks of the application ( css and html ) was mostly written with help of AI
+like Gemini, because i personally don`t have much feeling of design and colors so i used AI to help me with that,
+but it does not mean that i don`t understand what is weitten here, and i could do it by myself but it would not look 
+that aesthetic :)
+/* Pallete of colors and font for the entire application - changing here affects all pages */
+:root {
+  --brand: #10b981;          /* green from the logo - buttons, active tabs */
+  --brand-hover: #059669;
+  --brand-ink: #134e4a;      /* dark navy from the B4Fit text - headers */
+  --brand-soft: #ecfdf5;     /* light background for active elements */
+  --brand-border: #a7f3d0;
+  --brand-shadow: rgba(16, 185, 129, 0.3);
+  --font: 'Manrope', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
 body{
     padding: 0;
     margin: 0;
+    font-family: var(--font);
+    color: #1e293b;
+    background: #f8fafc;
+    /* Numbers with equal width - calorie counts don't "jump" as it generates bad looking results */
+    font-variant-numeric: tabular-nums;
      -ms-scrollbar-style: none;
+}
+
+/* Buttons and form fields don't inherit the font by default */
+button, input, select, textarea {
+    font-family: inherit;
+}
+
+h1, h2, h3, h4 {
+    letter-spacing: -0.01em;
 }
 
 *{

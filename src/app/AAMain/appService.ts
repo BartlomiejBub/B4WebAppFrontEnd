@@ -1,5 +1,8 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { UserRole } from '../usersManagment/user-service/user';
+import { UserRole } from '../usersManagement/services/user';
+import { T } from '../i18n/language';
+
+// this is a base Service, most top one which contains some important global data, signals and functions to set them
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +19,28 @@ export class AppService {
   public currentMonthName = signal<string>('');
   public visibleDays: Date[] = [];
   public selectedTimeOfDay = signal<number>(0);
+  public isLoginModalOpen = signal<boolean>(false);
+
+  public openLoginModal(): void {
+    this.isLoginModalOpen.set(true);
+  }
+
+  public closeLoginModal(): void {
+    this.isLoginModalOpen.set(false);
+  }
+
+  // date function to work in every case
+  public toLocalDateString(date: Date): string {
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${date.getFullYear()}-${month}-${day}`;
+  }
 
   public isLoggedIn(): boolean {
     return this.loggedUser() !== null;
   }
 
+  // some session variables that help about identyfying client - nothing is confirmed with tokens yet but it will be !!!!
   public setSession(login: string, role: string, userID: number): void {
     localStorage.setItem('logged_user', login);
     localStorage.setItem('role', role);
@@ -71,10 +91,11 @@ export class AppService {
     return this.currentFats();
   }
 
+  // function that changes date of visible diet date and days earlier/later
   public updateDateView() {
     let current = this.currentDateObject;
-    this.currentDateString.set(current.toISOString().split('T')[0]);
-    this.currentMonthName.set(current.toLocaleDateString('pl-PL', { month: 'long', year: 'numeric' }));
+    this.currentDateString.set(this.toLocalDateString(current));
+    this.currentMonthName.set(current.toLocaleDateString(T.locale, { month: 'long', year: 'numeric' }));
 
     this.visibleDays = [];
     for (let i = -3; i <= 3; i++) {

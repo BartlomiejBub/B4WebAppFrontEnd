@@ -1,0 +1,141 @@
+<div class="list-container">
+  <h3>{{ t.goals.title }}</h3>
+  <p class="goals-intro">{{ t.goals.intro }}</p>
+
+  <div class="mode-switch">
+    <button class="mode-tab" [class.active]="mode() === 'manual'" (click)="mode.set('manual')">{{ t.goals.modeManual }}</button>
+    <button class="mode-tab" [class.active]="mode() === 'calculator'" (click)="mode.set('calculator')">{{ t.goals.modeCalculator }}</button>
+  </div>
+
+  <!-- two modes provided - calculator and by hand -->
+
+  @if (mode() === 'manual') {
+    <div class="goals-grid">
+      <div class="goal-card kcal">
+        <label>{{ t.goals.calories }}</label>
+        <div class="goal-input-row">
+          <input type="number" step="1" min="0" #kcalInput class="form-control" [value]="kcal()"
+                 (input)="kcal.set(toNumber(kcalInput.value)); onInputChanged()">
+          <span class="unit">kcal</span>
+        </div>
+      </div>
+
+      <div class="goal-card protein">
+        <label>{{ t.goals.protein }}</label>
+        <div class="goal-input-row">
+          <input type="number" step="0.1" min="0" #proteinInput class="form-control" [value]="protein()"
+                 (input)="protein.set(toNumber(proteinInput.value)); onInputChanged()">
+          <span class="unit">g</span>
+        </div>
+      </div>
+
+      <div class="goal-card fat">
+        <label>{{ t.goals.fats }}</label>
+        <div class="goal-input-row">
+          <input type="number" step="0.1" min="0" #fatInput class="form-control" [value]="fat()"
+                 (input)="fat.set(toNumber(fatInput.value)); onInputChanged()">
+          <span class="unit">g</span>
+        </div>
+      </div>
+
+      <div class="goal-card carbs">
+        <label>{{ t.goals.carbs }}</label>
+        <div class="goal-input-row">
+          <input type="number" step="0.1" min="0" #carbsInput class="form-control" [value]="carbs()"
+                 (input)="carbs.set(toNumber(carbsInput.value)); onInputChanged()">
+          <span class="unit">g</span>
+        </div>
+      </div>
+    </div>
+
+    @if (isFormValid()) {
+      <div class="macro-hint">
+        {{ t.goals.kcalFromMacros }} <strong>{{ kcalFromMacros() }} kcal</strong>
+        <span class="hint-formula">{{ t.goals.kcalFormula }}</span>
+        @if (macrosDifferFromKcal()) {
+          <div class="hint-warning">{{ t.goals.macrosDiffer(kcal()) }}</div>
+        }
+      </div>
+    } @else {
+      <div class="hint-warning">{{ t.goals.invalidValues }}</div>
+    }
+
+    @if (savedMessage()) {
+      <div class="added-badge"><i class="fas fa-check"></i> {{ savedMessage() }}</div>
+    }
+
+    <div class="goals-actions">
+      <button class="btn-cancel" (click)="restoreDefaults()">{{ t.goals.restoreDefaults }}</button>
+      <button class="btn-success" (click)="onSaveGoals()" [disabled]="!isFormValid()">{{ t.goals.saveGoals }}</button>
+    </div>
+  } @else {
+    <div class="calc-form">
+      <div class="form-group">
+        <label>{{ t.goals.sex }}</label>
+        <div class="choice-row">
+          <button class="choice" [class.active]="sex() === 'male'" (click)="sex.set('male')">{{ t.goals.male }}</button>
+          <button class="choice" [class.active]="sex() === 'female'" (click)="sex.set('female')">{{ t.goals.female }}</button>
+        </div>
+      </div>
+
+      <div class="calc-row">
+        <div class="form-group">
+          <label>{{ t.goals.age }}</label>
+          <input type="number" min="15" max="100" #ageInput class="form-control" [placeholder]="t.goals.agePlaceholder"
+                 [value]="age() || ''" (input)="age.set(toNumber(ageInput.value))">
+        </div>
+        <div class="form-group">
+          <label>{{ t.goals.weight }}</label>
+          <input type="number" step="0.1" min="30" max="300" #weightInput class="form-control" [placeholder]="t.goals.weightPlaceholder"
+                 [value]="weight() || ''" (input)="weight.set(toNumber(weightInput.value))">
+        </div>
+        <div class="form-group">
+          <label>{{ t.goals.height }}</label>
+          <input type="number" min="120" max="250" #heightInput class="form-control" [placeholder]="t.goals.heightPlaceholder"
+                 [value]="height() || ''" (input)="height.set(toNumber(heightInput.value))">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>{{ t.goals.activity }}</label>
+        <select #activitySelect class="form-control" (change)="activity.set(toNumber(activitySelect.value))">
+          @for (level of activityLevels; track level.value) {
+            <option [value]="level.value" [selected]="level.value === activity()">{{ level.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>{{ t.goals.goal }}</label>
+        <div class="choice-row">
+          @for (type of goalTypes; track type.value) {
+            <button class="choice" [class.active]="goalType() === type.value" (click)="goalType.set(type.value)">{{ type.label }}</button>
+          }
+        </div>
+      </div>
+    </div>
+
+    @if (calculatorResult(); as result) {
+      <div class="macro-hint">
+        <div class="calc-summary">
+          {{ t.goals.bmr }} <strong>{{ result.bmr }} kcal</strong> ·
+          {{ t.goals.tdee }} <strong>{{ result.tdee }} kcal</strong>
+        </div>
+        <div class="item-macros">
+          <span class="kcal">🔥 {{ result.goals.goalKcal }} kcal</span>
+          <span>{{ t.common.proteinShort }}: {{ result.goals.goalProtein }}g</span>
+          <span>{{ t.common.fatShort }}: {{ result.goals.goalFat }}g</span>
+          <span>{{ t.common.carbsShort }}: {{ result.goals.goalCarbs }}g</span>
+        </div>
+      </div>
+    } @else {
+      <div class="hint-warning">{{ t.goals.fillParameters }}</div>
+    }
+
+    <p class="calc-note">{{ t.goals.calculatorNote }}</p>
+
+    <div class="goals-actions">
+      <button class="btn-success" (click)="useCalculatorResult()" [disabled]="!calculatorResult()">{{ t.goals.useAsGoals }}</button>
+    </div>
+  }
+</div>
