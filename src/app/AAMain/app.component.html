@@ -6,23 +6,26 @@
       <h1 class="logo">B4Fit</h1>
       
       <div class="nav-links">
-  <a routerLink="/home" class="nav-link">Home</a>
 
+  <!-- Navigation Links -->
+  <a routerLink="/home" class="nav-link">{{ t.nav.home }}</a>
+
+  <!-- Simple if statments about logged user and admin -->
   @if (appService.isLoggedIn()) {
-    <a routerLink="/diet" class="nav-link">Panel diety</a>
+    <a routerLink="/diet" class="nav-link">{{ t.nav.dietPanel }}</a>
 
     @if(appService.getUserRole() == adminRole) {
-    <a routerLink="/admin" class="nav-link">Panel Administracyjny</a>
+    <a routerLink="/admin" class="nav-link">{{ t.nav.adminPanel }}</a>
     }
 
-    <span class="user-greeting">Witaj, {{ appService.loggedUser() }}!</span>
-    <a (click)="appService.logout()" routerLink="/home" class="nav-link" style="cursor: pointer;">Wyloguj</a>
+    <span class="user-greeting">{{ t.nav.greeting(appService.loggedUser()) }}</span>
+    <a (click)="appService.logout()" routerLink="/home" class="nav-link" style="cursor: pointer;">{{ t.nav.logout }}</a>
     
   }
 
   @if (!appService.isLoggedIn()) {
-    <a (click)="openLoginModal()" class="nav-link" style="cursor: pointer;">Logowanie</a>
-    <a routerLink="/register" class="nav-link">Rejestracja</a>
+    <a (click)="openLoginModal()" class="nav-link" style="cursor: pointer;">{{ t.nav.login }}</a>
+    <a routerLink="/register" class="nav-link">{{ t.nav.register }}</a>
    
   }
 </div>
@@ -30,49 +33,61 @@
   </nav>
 
   <main class="main-content">
+    <!-- Outlet for component-->
     <router-outlet></router-outlet>
   </main>
 
   <footer class="bottom-footer">
-    <p>&copy; 2026 Wszelkie prawa zastrzeżone.</p>
+    <!-- Footer-->
+    <p>&copy; 2026 {{ t.nav.allRightsReserved }}</p>
   </footer>
 
-  @if (isLoginModalOpen) {
+  <!-- login modal if its opened-->
+  @if (appService.isLoginModalOpen()) {
     <div class="modal-overlay" (click)="closeLoginModal()">
       <div class="modal-box" (click)="$event.stopPropagation()">
         
         <div class="modal-header">
-          <h2>Witaj ponownie!</h2>
-          <p class="subtitle">Zaloguj się do swojego konta B4Fit</p>
+          <h2>{{ t.login.title }}</h2>
+          <p class="subtitle">{{ t.login.subtitle }}</p>
           <button class="close-btn" (click)="closeLoginModal()"><i class="fas fa-times"></i></button>
         </div>
         
         <div class="modal-body">
           <div class="form-group">
-            <label>Login</label>
-            <input type="text" #loginEmailInput class="form-control" placeholder="np. janKowalski">
+            <label>{{ t.common.login }}</label>
+            <input type="text" #loginEmailInput class="form-control" [placeholder]="t.login.loginPlaceholder">
           </div>
           
           <div class="form-group">
-            <label>Hasło</label>
+            <label>{{ t.common.password }}</label>
             <input type="password" #loginPassInput class="form-control" placeholder="••••••••">
           </div>
 
-          <a href="#" class="forgot-password">Zapomniałeś hasła?</a>
+          <a href="#" class="forgot-password">{{ t.login.forgotPassword }}</a>
         </div>
   
         <div class="modal-footer">
           <button class="btn-primary full-width" 
                   (click)="onLoginSubmit(loginEmailInput.value, loginPassInput.value)">
-            Zaloguj się
+            {{ t.login.submit }}
           </button>
           
           <div class="register-prompt">
-            Nie masz jeszcze konta? <a routerLink="/register" (click)="closeLoginModal()">Zarejestruj się</a>
+            {{ t.login.noAccount }} <a routerLink="/register" (click)="closeLoginModal()">{{ t.login.registerLink }}</a>
           </div>
         </div>
 
       </div>
     </div>
   }
+  <!-- messages about login validation-->
+  <div class="toast-container">
+    @for (item of toast.toasts(); track item.id) {
+      <div class="toast" [class.error]="item.type === 'error'" (click)="toast.dismiss(item.id)">
+        <i class="fas" [class.fa-check-circle]="item.type === 'success'" [class.fa-exclamation-circle]="item.type === 'error'"></i>
+        <span>{{ item.message }}</span>
+      </div>
+    }
+  </div>
 </div>

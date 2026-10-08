@@ -1,0 +1,122 @@
+<div class="search-container">
+  <div class="search-header-wrapper">
+    <div class="search-header">
+      <input #searchInput type="text" class="search-input" [placeholder]="t.addProduct.searchPlaceholder" (input)="onSearch(searchInput.value)">
+    </div>
+    <button class="btn-add-new" (click)="addProductModalOpen()">
+      <i class="fas fa-plus"></i> {{ t.addProduct.addOwnButton }}
+    </button>
+  </div>
+
+  <!-- loop of products searched -->
+  @for (item of this.productService.productsSearched(); track item.ID_Product) {
+    <div class="search-results">
+      <div class="product-item" >
+        <div class="item-info">
+          <h4>{{ item.name }}</h4>
+          <div class="item-macros">
+            <span class="badge">{{ t.common.per100g }}</span>
+            <span class="kcal">🔥 {{ item.caloric }} kcal</span>
+            <span>{{ t.common.proteinShort }}: {{ item.protein }}g</span>
+            <span>{{ t.common.fatShort }}: {{ item.fat }}g</span>
+            <span>{{ t.common.carbsShort }}: {{ item.carbs }}g</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <input type="number" class="weight-input" [placeholder]="t.common.weightGrams" #weightInput>
+          <button class="btn-add" (click)="onAddProductByUser(item.ID_Product, weightInput.value)">{{ t.common.add }}</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- and recipes at once -->
+  @for (recipe of this.recipesSearched(); track recipe.ID_Recipe) {
+    <div class="search-results">
+      <div class="product-item" >
+        <div class="item-info">
+          <h4>{{ recipe.name }}</h4>
+          <div class="item-macros">
+            <span class="badge">{{ t.addProduct.wholeRecipe(recipe.portion * recipe.gramsInOne) }}</span>
+            <span class="kcal">🔥 {{ recipe.caloric }} kcal</span>
+            <span>{{ t.common.proteinShort }}: {{ recipe.protein }}g</span>
+            <span>{{ t.common.fatShort }}: {{ recipe.fat }}g</span>
+            <span>{{ t.common.carbsShort }}: {{ recipe.carbs }}g</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <input type="number" class="weight-input" [placeholder]="t.common.weightGrams" #weightInput>
+          <button class="btn-add" (click)="onAddRecipeByUser(recipe.ID_Recipe, weightInput.value)">{{ t.common.add }}</button>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>
+
+<!-- Modal of adding new products -->
+@if (isAddProductModalOpen()) {
+  <div class="modal-overlay" (click)="addProductModalClose()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ t.addProduct.modalTitle }}</h3>
+        <button class="close-btn" (click)="addProductModalClose()"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <div class="modal-body modal-body-edit">
+        
+        <div class="form-group">
+          <label>{{ t.addProduct.nameLabel }}</label>
+          <input type="text" #nameInput class="form-control" [placeholder]="t.addProduct.namePlaceholder">
+        </div>
+
+        <div class="macro-grid">
+          <div class="form-group">
+            <label>{{ t.addProduct.kcalPer100g }}</label>
+            <input type="number" step="0.1" min="0" #caloricInput class="form-control" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>{{ t.addProduct.proteinGrams }}</label>
+            <input type="number" step="0.1" min="0" #proteinInput class="form-control" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>{{ t.addProduct.carbsGrams }}</label>
+            <input type="number" step="0.1" min="0" #carbsInput class="form-control" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>{{ t.addProduct.fatsGrams }}</label>
+            <input type="number" step="0.1" min="0" #fatInput class="form-control" placeholder="0">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group half-width">
+            <label>{{ t.addProduct.defaultPortion }}</label>
+            <input type="number" #gramsInOneInput class="form-control" [placeholder]="t.addProduct.defaultPortionPlaceholder">
+          </div>
+          <div class="form-group half-width">
+            <label>{{ t.addProduct.productCode }}</label>
+            <input type="text" #codeInput class="form-control" [placeholder]="t.addProduct.productCodePlaceholder">
+          </div>
+        </div>
+
+      </div>
+      <!-- all the data needed -->
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="addProductModalClose()">{{ t.common.cancel }}</button>
+        <button class="btn-success" 
+                (click)="onAddProductRaw(
+                  nameInput.value, 
+                  caloricInput.value, 
+                  proteinInput.value, 
+                  carbsInput.value, 
+                  fatInput.value, 
+                  gramsInOneInput.value, 
+                  codeInput.value
+                )">
+          {{ t.addProduct.saveProduct }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

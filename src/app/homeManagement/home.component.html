@@ -1,0 +1,41 @@
+<div class="home-container">
+
+  <section class="hero-section">
+    <div class="hero-text">
+      <h1>{{ t.home.heroTitle }}</h1>
+      <p>{{ t.home.heroText }}</p>
+      <div class="hero-buttons">
+        @if (appService.isLoggedIn()) {
+          <a routerLink="/diet" class="btn-primary">{{ t.home.goToPanel }}</a>
+        } @else {
+          <a routerLink="/register" class="btn-primary">{{ t.home.createAccount }}</a>
+          <a (click)="appService.openLoginModal()" class="btn-secondary" style="cursor: pointer;">{{ t.home.haveAccount }}</a>
+        }
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="B4FitLogo.png" [alt]="t.home.logoAlt">
+    </div>
+  </section>
+
+  <section class="features-section">
+    <div class="feature">
+      <span class="feature-number">01</span>
+      <h3>{{ t.home.feature1Title }}</h3>
+      <p>{{ t.home.feature1Text }}</p>
+    </div>
+
+    <div class="feature">
+      <span class="feature-number">02</span>
+      <h3>{{ t.home.feature2Title }}</h3>
+      <p>{{ t.home.feature2Text }}</p>
+    </div>
+
+    <div class="feature">
+      <span class="feature-number">03</span>
+      <h3>{{ t.home.feature3Title }}</h3>
+      <p>{{ t.home.feature3Text }}</p>
+    </div>
+  </section>
+
+</div>

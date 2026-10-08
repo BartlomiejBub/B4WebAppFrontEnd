@@ -1,0 +1,276 @@
+<div class="search-container list-container">
+ <div class="search-header-wrapper">
+    <div class="search-header">
+      <input #searchInputMain type="text" class="search-input" [placeholder]="t.recipes.searchPlaceholder" (input)="onSearchrecipes(searchInputMain.value)">
+    </div>
+    <button class="btn-add-new" (click)="openAddRecipeModal()">
+      <i class="fas fa-plus"></i> {{ t.recipes.addButton }}
+    </button>
+  </div>
+ @for (recipe of this.searchedRecipes(); track recipe.ID_Recipe; let i = $index) {
+  <div class="recipe-item clickable" (click)="openRecipeDetailsModal(i)" [title]="t.recipe.showDetailsTooltip">
+    <!-- place for photos that are not implemented yet -->
+    <div class="recipe-photo recipe-photo-thumb" [style.background]="placeholder(recipe.name).background" [style.color]="placeholder(recipe.name).color">
+      <span class="photo-letter">{{ placeholder(recipe.name).letter }}</span>
+    </div>
+
+    <div class="item-info">
+      
+      <div class="recipe-title-row">
+        <h4>{{ recipe.name }}</h4>
+        <span class="time-badge"><i class="far fa-clock"></i> {{ recipe.timeToCook }} min</span>
+      </div>
+      
+      <p class="recipe-header">{{ recipe.header }}</p>
+
+      <div class="recipe-portions">
+        <span>{{ t.recipe.onePortion }} <strong>{{ recipe.gramsInOne }}g</strong></span>
+        <span>{{ t.recipe.portions }} <strong>{{ recipe.portion }}</strong></span>
+      </div>
+
+      <div class="item-macros">
+        <span class="kcal"><i class="icon">🔥</i> {{ recipe.caloric }} kcal</span>
+        <span>{{ t.common.proteinShort }}: {{ recipe.protein }}g</span>
+        <span>{{ t.common.fatShort }}: {{ recipe.fat }}g</span>
+        <span>{{ t.common.carbsShort }}: {{ recipe.carbs }}g</span>
+      </div>
+
+      @if (this.searchedRecipesProducts()[i] && this.searchedRecipesProducts()[i].length > 0) {
+        <div class="recipe-ingredients">
+          <h5>{{ t.recipe.ingredients }}</h5>
+          <ul class="ingredients-list">
+            @for (product of this.searchedRecipesProducts()[i]; track product.ID_Product) {
+              <li>
+                {{ product.name }} 
+                <span class="product-kcal">({{ product.caloric }} kcal / 100g)</span>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+    </div>
+  </div>
+  }
+</div>
+
+@if (selectedRecipeIndex() !== null && searchedRecipes()[selectedRecipeIndex()!]; as recipe) {
+  <div class="modal-overlay" (click)="closeRecipeDetailsModal()">
+    <div class="modal-box recipe-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ recipe.name }}</h3>
+        <button class="close-btn" (click)="closeRecipeDetailsModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- same place for photo -->
+        <div class="recipe-photo recipe-photo-large" [style.background]="placeholder(recipe.name).background" [style.color]="placeholder(recipe.name).color">
+          <span class="photo-letter">{{ placeholder(recipe.name).letter }}</span>
+          <span class="photo-text">{{ t.recipe.noPhoto }}</span>
+        </div>
+
+        <div class="recipe-title-row">
+          <span class="time-badge"><i class="far fa-clock"></i> {{ recipe.timeToCook }} min</span>
+        </div>
+
+        <p class="recipe-header">{{ recipe.header }}</p>
+
+        <div class="recipe-portions">
+          <span>{{ t.recipe.onePortion }} <strong>{{ recipe.gramsInOne }}g</strong></span>
+          <span>{{ t.recipe.portions }} <strong>{{ recipe.portion }}</strong></span>
+        </div>
+
+        <div class="item-macros">
+          <span class="kcal"><i class="icon">🔥</i> {{ recipe.caloric }} kcal</span>
+          <span>{{ t.common.proteinShort }}: {{ recipe.protein }}g</span>
+          <span>{{ t.common.fatShort }}: {{ recipe.fat }}g</span>
+          <span>{{ t.common.carbsShort }}: {{ recipe.carbs }}g</span>
+        </div>
+
+        @if (searchedRecipesProducts()[selectedRecipeIndex()!] && searchedRecipesProducts()[selectedRecipeIndex()!].length > 0) {
+          <div class="recipe-ingredients">
+            <h5>{{ t.recipe.ingredients }}</h5>
+            <ul class="ingredients-list">
+              @for (product of searchedRecipesProducts()[selectedRecipeIndex()!]; track product.ID_Product; let j = $index) {
+                <li>
+                  {{ product.name }}
+                  @if (searchedRecipesProductsWeights()[selectedRecipeIndex()!]?.[j]) {
+                    <strong>– {{ searchedRecipesProductsWeights()[selectedRecipeIndex()!][j] }}g</strong>
+                  }
+                  <span class="product-kcal">({{ product.caloric }} kcal / 100g)</span>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+
+        <label class="section-label">{{ t.recipe.preparation }}</label>
+        <p class="recipe-description">{{ recipe.description || t.recipe.noDescription }}</p>
+
+        <label class="section-label">{{ t.recipe.addToEatenFor(appService.currentDateString()) }}</label>
+        <div class="form-row">
+          <div class="form-group half-width">
+            <label>{{ t.recipe.meal }}</label>
+            <select #timeSelect class="form-control">
+              @for (meal of mealTimes; track meal.value) {
+                <option [value]="meal.value" [selected]="meal.value === (appService.selectedTimeOfDay() || 1)">{{ meal.label }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group half-width">
+            <label>{{ t.common.weightGrams }}</label>
+            <input type="number" #consumedWeightInput class="form-control" [placeholder]="t.recipe.weightPlaceholder" [value]="recipe.gramsInOne > 0 ? recipe.gramsInOne : ''">
+          </div>
+        </div>
+
+        @if (detailsMessage()) {
+          <div class="added-badge"><i class="fas fa-check"></i> {{ detailsMessage() }}</div>
+        }
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeRecipeDetailsModal()">{{ t.common.close }}</button>
+        <button class="btn-success" (click)="onAddRecipeToConsumed(recipe, consumedWeightInput.value, timeSelect.value)">
+          {{ t.recipe.addToEaten }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (isAddRecipeModalOpen()) {
+  <div class="modal-overlay" (click)="closeAddRecipeModal()">
+    <div class="modal-box recipe-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ t.recipes.step1Title }}</h3>
+        <button class="close-btn" (click)="closeAddRecipeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <div class="modal-body">
+        
+        <div class="form-group">
+          <label>{{ t.recipes.nameLabel }}</label>
+          <input type="text" #nameInput class="form-control" [placeholder]="t.recipes.namePlaceholder" [value]="newRecipe.name">
+        </div>
+
+        <div class="form-group">
+          <label>{{ t.recipes.headerLabel }}</label>
+          <input type="text" #headerInput class="form-control" [placeholder]="t.recipes.headerPlaceholder" [value]="newRecipe.header">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group half-width">
+            <label>{{ t.recipes.prepTime }}</label>
+            <input type="number" #timeInput class="form-control" [placeholder]="t.recipes.prepTimePlaceholder" [value]="newRecipe.timeToCook > 0 ? newRecipe.timeToCook : ''">
+          </div>
+          <div class="form-group half-width">
+            <label>{{ t.recipes.portionsLabel }}</label>
+            <input type="number" #portionInput class="form-control" [placeholder]="t.recipes.portionsPlaceholder" [value]="newRecipe.portion > 0 ? newRecipe.portion : ''">
+          </div>
+          <div class="form-group half-width">
+            <label>{{ t.recipes.portionWeight }}</label>
+            <input type="number" #gramsInput class="form-control" [placeholder]="t.recipe.weightPlaceholder" [value]="newRecipe.gramsInOne > 0 ? newRecipe.gramsInOne : ''">
+          </div>
+        </div>
+
+        <label class="section-label">{{ t.recipes.macrosForWholeRecipe }}</label>
+        <div class="macro-grid">
+          <div class="form-group">
+            <label>{{ t.recipes.kcal }}</label>
+            <input type="number" step="0.1" min="0" #kcalInput class="form-control" placeholder="0" [value]="newRecipe.caloric > 0 ? newRecipe.caloric : ''">
+          </div>
+          <div class="form-group">
+            <label>{{ t.recipes.proteinGrams }}</label>
+            <input type="number" step="0.1" min="0" #proteinInput class="form-control" placeholder="0" [value]="newRecipe.protein > 0 ? newRecipe.protein : ''">
+          </div>
+          <div class="form-group">
+            <label>{{ t.recipes.carbsGrams }}</label>
+            <input type="number" step="0.1" min="0" #carbsInput class="form-control" placeholder="0" [value]="newRecipe.carbs > 0 ? newRecipe.carbs : ''">
+          </div>
+          <div class="form-group">
+            <label>{{ t.recipes.fatsGrams }}</label>
+            <input type="number" step="0.1" min="0" #fatInput class="form-control" placeholder="0" [value]="newRecipe.fat > 0 ? newRecipe.fat : ''">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>{{ t.recipe.preparation }}</label>
+          <textarea #descInput class="form-control" rows="4" [placeholder]="t.recipes.preparationPlaceholder">{{ newRecipe.description }}</textarea>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeAddRecipeModal()">{{ t.common.cancel }}</button>
+        <button class="btn-success" 
+                (click)="moveOnToAddProductsToRecipe(nameInput.value, headerInput.value, descInput.value, timeInput.value, portionInput.value, gramsInput.value, kcalInput.value, proteinInput.value, carbsInput.value, fatInput.value)"
+                >
+          {{ t.recipes.nextButton }} <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (isAddProductsToRecipeModalOpen()) {
+  <div class="modal-overlay" (click)="closeAddProductsToRecipeModal()">
+    <div class="modal-box recipe-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="header-with-back">
+          <button class="btn-icon" (click)="backToRecipeDetails()"><i class="fas fa-arrow-left"></i></button>
+          <h3>{{ t.recipes.step2Title }}</h3>
+        </div>
+        <button class="close-btn" (click)="closeAddProductsToRecipeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <div class="modal-body">
+        
+        <div class="modal-search-box">
+          <input #searchInput type="text" class="form-control" [placeholder]="t.recipes.productSearchPlaceholder" (input)="onSearchProducts(searchInput.value)">
+        </div>
+
+        <div class="selected-count">
+          {{ t.recipes.selectedCount }} <strong>{{ selectedRecipeProducts.length }}</strong>
+        </div>
+
+        <div class="products-selection-list">
+          @for (item of productService.productsSearched(); track item.ID_Product) {
+            <div class="product-item compact-item">
+              <div class="item-info">
+                <h4>{{ item.name }}</h4>
+                <div class="item-macros">
+                  <span class="badge">{{ t.common.per100g }}</span>
+                  <span class="kcal">🔥 {{ item.caloric }}</span>
+                  <span>{{ t.common.proteinShort }}: {{ item.protein }}</span>
+                  <span>{{ t.common.fatShort }}: {{ item.fat }}</span>
+                  <span>{{ t.common.carbsShort }}: {{ item.carbs }}</span>
+                </div>
+              </div>
+              
+              <div class="item-actions compact-actions">
+                @if(selectedRecipeProducts.includes(item.ID_Product!)) {
+                  <div class="added-badge">
+                    <i class="fas fa-check"></i> {{ t.recipes.added }} ({{ weights[selectedRecipeProducts.indexOf(item.ID_Product!)] }}g)
+                  </div>
+                } @else {
+                  <input type="number" class="weight-input-small" [placeholder]="t.common.weightGrams" #weightInput>
+                  <button class="btn-add-outline" (click)="onAddProductToRecipe(item.ID_Product, weightInput.value)">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="backToRecipeDetails()">{{ t.recipes.back }}</button>
+        <button class="btn-success" (click)="onAddRecipeSubmit()" [disabled]="selectedRecipeProducts.length === 0">{{ t.recipes.saveRecipe }}</button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,147 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* --- Sekcja Hero --- */
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 60px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  gap: 40px;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-text h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--brand-ink);
+  line-height: 1.2;
+  margin: 0 0 20px 0;
+}
+
+.hero-text p {
+  font-size: 1.15rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 35px;
+  max-width: 500px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-primary {
+  background-color: #10b981;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #059669;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: #f1f5f9;
+  color: #475569;
+  padding: 14px 28px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: #e2e8f0;
+}
+
+.hero-image {
+  flex: 1;
+  text-align: right;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  max-height: 350px;
+}
+
+/* --- Funkcje aplikacji --- */
+.features-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  padding: 0 10px;
+}
+
+.feature {
+  border-top: 2px solid var(--brand);
+  padding-top: 20px;
+}
+
+.feature-number {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--brand);
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.feature h3 {
+  font-size: 1.2rem;
+  color: var(--brand-ink);
+  margin: 0 0 10px 0;
+  font-weight: 700;
+}
+
+.feature p {
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Animacja wejścia */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* RWD (Dla mniejszych ekranów) */
+@media (max-width: 900px) {
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .hero-text p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-buttons {
+    justify-content: center;
+  }
+  .features-section {
+    grid-template-columns: 1fr; /* Na komórkach punkty układają się jeden pod drugim */
+    gap: 30px;
+  }
+}
