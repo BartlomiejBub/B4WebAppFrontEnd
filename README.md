@@ -1,63 +1,32 @@
-# Hello, this is a project of diet application created by student of AGH Cracov. This project was made with REST API Spring Boot Java server and Angular frontend, focusing on communication between server and client and big amount of interactions that user can make, what it`s not focusing in most is design what was mostly made with AI as I`m not a person who has a feeling of design and colors, but a person who is great in making things work as it should, like designing logic of entire application. More informations are written above specific sections of the code ( functions classes etc. ) or on README on github. Hope You enjoy the web application!
+# Overview
+
+Hello, this is a project of diet application created by student of AGH Cracov. This project was made with REST API Spring Boot and Angular frontend, focusing on communication between server and client and big amount of interactions that user can make, what it is not focusing on mostly is design (pure HTML and CSS) that was mostly made with AI as I am not a person who has a feeling of design and colors, but a person who is great in making things work as it should, like designing logic of entire application, data bases, relations, algorithms and object oriented programming. 
+
+## BackEnd
+Project has two parts, first one is BackEnd "B4WebAppBackEnd". It was made in Java, generated using REST API Java SpringBoot framework in Maven, and set up to store all the data needed by application to work, and also set up to communicate with requests from frontend by creating REST controllers all over the classes (tables) which are getting (or sending) some raw data, that is then (or earlier) prepared by services and saved (or ealier got from) directly to database. 
+
+So it shares some basic 3-stage architecture for this kind of API. What database contains is users, products and recipes, and also sort of junction tables which hold the rellations (many to many) between those tables. Addicionally it also has classes that help application to work safely and provide some extra features ( The security, registration and email verification packages ). The security part is not finished yet as i do not have enough experience and knowledge about it yet but it will definitely change in the future. The diagram of database is down below, so everybody can look how it looks without scrolling the files:
+
+<p align="center">
+  <img width="600" height="500" alt="Database diagram" src="https://github.com/user-attachments/assets/f59cc216-d4af-4625-86a9-4c15f75c8d45" />
+</p>
+
+## FrontEnd
+Second part is FrontEnd "B4WEbAppFrontEnd" which was made using framework Angular, so it is not just raw HTML and CSS but a live working and reacting web applications wrote in TypeScript that has constant communication to database provided by services on it's side and signal class variables. All the things seen on FrontEnd depends on componenets and routes between them so the app never really reloads but switch on components that user accually see, as it is a common feature and reason of using Angular in these kind of projects. Interactions with user are supported by clean and minimalistic design of app, a lot of buttons that directly lead user to some actions and also there are informations poping up as a notification, such as success of signing in.
+
+## Pros and Cons
+What i would not change / change in the profect so far? Let's start with strong side:
+- Minimalistic and clean design
+- Many features for user ( some will be added yet )
+- Well made, clear database structure
+- Well designed communication between client and server
+- Potential to adding many new features and continue upgrading the application
+
+What i would change:
+- Security part overall, which is now made only for testing
+- More clean services in backend, if it would be possible
+- Token verificated requests (part of security)
+- Home page which does not contain any usefull informations yet as the app is not live and running on internet yet
+- Additional Exercises and Training section (planned but not yet added, it is added in other project in mobile app, that is up on github, so it will be similliar to that one)
 
 # Bartłomiej Bubicz
-
-# FrontEndApki
-
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.1.
-
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
