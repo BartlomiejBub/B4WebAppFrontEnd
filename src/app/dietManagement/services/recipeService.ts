@@ -25,7 +25,10 @@ export class RecipeService {
   constructor(private http: HttpClient) {
   }
 
-  // Jedno zapytanie zwraca przepisy razem ze składnikami, więc indeksy zawsze do siebie pasują
+  // specific function that uses class with recipe and used products in it, also containing weights of products
+  // it`s important that it should be restored as a single object to not any data during multiple requests for 
+  // recipe and products, it caused some problems earlier with seperate ones
+  
   public getRecipes(): void {
     this.http.get<RecipeWithProductsResponse[]>(`${this.apiServerUrl}recipe/withProducts`).subscribe((response) => {
       const userID = Number(localStorage.getItem("userID"));

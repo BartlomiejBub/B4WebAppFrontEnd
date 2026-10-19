@@ -3,7 +3,7 @@ import { T } from "../../i18n/language";
 
 
 // the calculator is based on Mifflin-St Jeor formula and some simple rules for calculating macros
-// and adjusting calories for weight loss or gain, algorithm is made with help of internet because I am not a dietitian
+// and adjusting calories for weight loss or gain, algorithm is made with help of internet because I am not a dietitian ;)
 
 
 export type Sex = 'male' | 'female';

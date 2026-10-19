@@ -12,6 +12,8 @@ import { API_URL } from '../../AAMain/api';
 })
 export class ProductService {
 
+  // I would say that is the most important service, the most functions are here and the most data transfers right here
+
   private apiServerUrl = API_URL;
   public products = signal<Product[]>([]);
   public consumedProducts = signal<ProductByUserResponse[]>([]);
@@ -75,7 +77,6 @@ export class ProductService {
       fats += entry.fatCalculated;
     }
 
-    // Zaokrąglenie do 1 miejsca po przecinku (suma liczb zmiennoprzecinkowych daje np. 12.299999999)
     const round1 = (value: number) => Math.round(value * 10) / 10;
     this.appService.setCurrentKcalStats(round1(kcal), round1(carbs), round1(proteins), round1(fats));
   }

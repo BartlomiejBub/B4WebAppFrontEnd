@@ -1,6 +1,6 @@
 import { T } from '../../i18n/language';
 
-// simple service that provides meal times for other services and database
+// provides meal times for other services and database
 export const MEAL_TIMES = [
     { value: 1, label: T.meals.breakfast, addTitle: T.meals.addToBreakfast },
     { value: 2, label: T.meals.secondBreakfast, addTitle: T.meals.addToSecondBreakfast },

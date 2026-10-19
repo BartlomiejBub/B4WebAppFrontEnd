@@ -20,8 +20,13 @@ export class RegisterComponent {
   constructor(private toast: ToastService, private userService: UserService, private router: Router) {
   }
 
-  public onAddUserRaw(name: string, surname: string, login: string, email: string, pass: string): void {
-    
+  public onAddUserRaw(name: string, surname: string, login: string, email: string, pass: string, passConfirm: string): void {
+
+    if (pass !== passConfirm) {
+      this.toast.error(T.register.passwordsMismatch);
+      return;
+    }
+
     const newUser: User = {
       ID_User: null, 
       name: name,
@@ -40,7 +45,7 @@ export class RegisterComponent {
         this.router.navigate(['/home']);
       },
       error: (error: HttpErrorResponse) => {
-        this.toast.error(T.register.error(error.message));
+        this.toast.error(T.register.error(error.error?.message ?? error.message));
       }
     });
   }

@@ -10,7 +10,7 @@ import { DEFAULT_GOALS, UserGoals } from './AA-UserGoals';
 export class GoalsService {
 
   private apiServerUrl = API_URL;
-  // simple service for getting and saving user goals, it is used in dietGoalsComponent.ts
+  // simple service made for getting and saving user goals
   public goals = signal<UserGoals>(DEFAULT_GOALS);
 
   constructor(private http: HttpClient) {

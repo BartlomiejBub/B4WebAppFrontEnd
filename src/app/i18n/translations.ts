@@ -1,7 +1,3 @@
-// Wszystkie teksty widoczne na stronie. Każdy język (pl.ts, en.ts) musi mieć dokładnie te klucze,
-// więc jak dodasz tu nowy tekst, TypeScript pokaże błąd w pliku języka, któremu go brakuje.
-// Język wybiera się w language.ts.
-// Teksty z parametrami są funkcjami, np. greeting('jan') => "Witaj, jan!"
 
 export type Language = 'pl' | 'en';
 
@@ -118,6 +114,8 @@ export interface Translations {
     success: string;
     /** Toast z błędem; message to treść błędu z serwera */
     error: (message: string) => string;
+    /** Toast, gdy hasło i powtórzone hasło się różnią */
+    passwordsMismatch: string;
   };
 
   /** Panel administracyjny - lista użytkowników (user.component.html / .ts) */

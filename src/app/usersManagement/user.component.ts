@@ -14,8 +14,6 @@ import { T } from '../i18n/language';
   styleUrl: './user.component.css'
 })
 export class UserComponent implements OnInit {
-
-  //protected readonly title = signal('FrontEndApki');
   
   public users: User[];
   public allUsers: User[];
@@ -41,7 +39,7 @@ export class UserComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: (error: HttpErrorResponse) => {
-        this.toast.error(error.message);
+        this.toast.error(error.error?.message ?? error.message);
         this.cdr.detectChanges();
       }
     });
@@ -69,7 +67,7 @@ export class UserComponent implements OnInit {
         this.closeModal();
       },
       error: (error: HttpErrorResponse) => {
-        this.toast.error(error.message);
+        this.toast.error(error.error?.message ?? error.message);
         this.cdr.detectChanges();
       }
     });
@@ -97,7 +95,7 @@ export class UserComponent implements OnInit {
         this.closeModal();
       },
       error: (error: HttpErrorResponse) => {
-        this.toast.error(T.admin.addError(error.message));
+        this.toast.error(T.admin.addError(error.error?.message ?? error.message));
       }
     });
   }
@@ -128,7 +126,7 @@ export class UserComponent implements OnInit {
         this.closeModal();
       },
       error: (error: HttpErrorResponse) => {
-        this.toast.error(T.admin.editError(error.message));
+        this.toast.error(T.admin.editError(error.error?.message ?? error.message));
       }
     });
     }

@@ -1,6 +1,6 @@
 import { Translations } from './translations';
 
-// Polska wersja strony. Opis każdego tekstu jest w translations.ts
+// Polish translations
 export const PL: Translations = {
 
   locale: 'pl-PL',
@@ -80,6 +80,7 @@ export const PL: Translations = {
     loginLink: 'Zaloguj się',
     success: 'Konto utworzone! Sprawdź skrzynkę email, aby je aktywować.',
     error: (message) => `Błąd podczas dodawania: ${message}`,
+    passwordsMismatch: 'Hasła nie są takie same',
   },
 
   admin: {

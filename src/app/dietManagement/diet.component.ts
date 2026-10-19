@@ -14,7 +14,6 @@ import { T } from '../i18n/language';
 export class DietComponent {
   public t = T;
 
-  // Cele użytkownika (ustawiane na stronie "Moje cele")
   public get maxKcal(): number { return this.goalsService.goals().goalKcal; }
   public get maxProteins(): number { return this.goalsService.goals().goalProtein; }
   public get maxFats(): number { return this.goalsService.goals().goalFat; }
@@ -34,7 +33,6 @@ export class DietComponent {
     return percent;
   }
 
-  // "Zostało 420 kcal" albo "Ponad limit o 80 kcal"
   public remainingText(current: number, max: number, unit: string): string {
     const difference = Math.round((max - current) * 10) / 10;
     return difference >= 0 ? T.diet.remaining(difference, unit) : T.diet.overLimit(-difference, unit);

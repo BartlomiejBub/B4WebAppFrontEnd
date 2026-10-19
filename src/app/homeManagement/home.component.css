@@ -5,7 +5,6 @@
   animation: fadeIn 0.5s ease-out;
 }
 
-/* --- Sekcja Hero --- */
 .hero-section {
   display: flex;
   align-items: center;
@@ -84,7 +83,6 @@
   max-height: 350px;
 }
 
-/* --- Funkcje aplikacji --- */
 .features-section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -141,7 +139,7 @@
     justify-content: center;
   }
   .features-section {
-    grid-template-columns: 1fr; /* Na komórkach punkty układają się jeden pod drugim */
+    grid-template-columns: 1fr; 
     gap: 30px;
   }
 }

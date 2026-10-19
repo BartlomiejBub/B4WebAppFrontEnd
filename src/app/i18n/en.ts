@@ -1,6 +1,6 @@
 import { Translations } from './translations';
 
-// Angielska wersja strony. Opis każdego tekstu jest w translations.ts
+// English translations 
 export const EN: Translations = {
 
   locale: 'en-GB',
@@ -80,6 +80,7 @@ export const EN: Translations = {
     loginLink: 'Log in',
     success: 'Account created! Check your email inbox to activate it.',
     error: (message) => `Error while creating account: ${message}`,
+    passwordsMismatch: 'Passwords do not match',
   },
 
   admin: {
