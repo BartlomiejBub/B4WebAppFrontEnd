@@ -50,7 +50,29 @@ The database diagram is below, so everybody can see how it looks without browsin
 ## Frontend
 The second part is the Frontend "B4WebAppFrontEnd" which was made using the Angular framework, so it is not just raw HTML and CSS but a live working and reacting web application written in TypeScript that has constant communication with the backend REST API provided by HTTP services (using Angular's `HttpClient`) on its side and Angular signals. All the things seen on the Frontend depend on components and routes between them, as it is a single-page application (SPA), so the app never really reloads but the Angular Router swaps the components the user actually sees, as it is a common feature and reason for using Angular in this kind of project. Interactions with the user are supported by a clean and minimalistic design of the app, a lot of buttons that directly lead the user to some actions and also there is information popping up as a notification, such as success of signing in.
 
-## How to run it (soon available through Docker!)
+## How to run it
+
+### With Docker (recommended)
+**Requirements:** [Docker](https://www.docker.com/) with Docker Compose.
+
+The whole project (backend, frontend, PostgreSQL database and a MailDev test mail server) starts with one command. The `compose.yaml` file is in both repositories and builds the images straight from GitHub, so you only need that one file:
+
+```bash
+docker compose up --build
+```
+
+| Service | Address |
+| --- | --- |
+| Frontend | http://localhost:4200 |
+| Backend API | http://localhost:8080 |
+| MailDev (verification emails) | http://localhost:1080 |
+| PostgreSQL | `localhost:5433` |
+
+On the first start the database is filled with sample data: an admin account, products, recipes and exercises. You can log in as `admin` with the password `admin`. To set your own passwords, create a `.env` file next to `compose.yaml` with `DB_PASSWORD` and `ADMIN_PASSWORD` (see `.env.example` in the backend repository).
+
+To stop the app run `docker compose down`, and to also delete the database data run `docker compose down -v`.
+
+### Manually
 **Requirements:** JDK 25, Node.js with npm, PostgreSQL, and a local SMTP test server on port 1025 (for example [MailDev](https://github.com/maildev/maildev)) to receive verification emails.
 
 1. Create a PostgreSQL database called `BazaDanychAplikacji`.
@@ -59,7 +81,7 @@ The second part is the Frontend "B4WebAppFrontEnd" which was made using the Angu
    ```bash
    ./mvnw spring-boot:run
    ```
-   The API runs on `http://localhost:8080`.
+   The API runs on `http://localhost:8080`. Sample data and the `admin` account are added on the first run.
 4. Start the frontend:
    ```bash
    npm install
@@ -77,7 +99,6 @@ The second part is the Frontend "B4WebAppFrontEnd" which was made using the Angu
 ## Roadmap
 - Token-based authentication (JWT) and a stronger security setup overall
 - Cleaner services in the backend, where possible
-- Running the whole project with Docker
 - Home page with useful information, once the app is live on the internet
 - Exercises and Training section, similar to the one in my [mobile app](https://github.com/BartlomiejBub/B4FitMobile)
 - Adding photos to own recipes and products
